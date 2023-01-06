@@ -11,6 +11,10 @@ Most of the API calls are designed to work with fedwave's api (which should matc
 `.env` Has a bunch of configuration options that need to be configured for this to work.
 Everything from Chat,API,Signaling server, branding.
 
+Start by copying the `.env.example` to `.env`
+
+`cp .env.example .env`
+
 
 # Local development
 
@@ -55,3 +59,13 @@ Firebase,
 
 The best way to run this is via a remote repo in production that you can push to, there will be
 a sample script and further setup info bellow.
+
+```mkdir bitvvave.git
+cd bitvvave.git
+git init --bare
+nano hooks/post-receive
+chmod +x hooks/post-receive
+mkdir bitvvave
+```
+
+Uses the post-receive.example file to configur and setup your deployment
