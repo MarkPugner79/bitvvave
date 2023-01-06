@@ -19,7 +19,7 @@ do
                 echo "[+] Restarting bitvvave service"
                 cd $TARGET
                 # this process will probably need to be tuned for security fixes etc
-                npm ci
+                npm ci --force
                 # reconfigure this part based on what you name your instance of bitvvave running
                 pm2 restart bitvvave
                 #cd /var/www/ghost ; ghost restart
