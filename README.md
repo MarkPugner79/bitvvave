@@ -58,6 +58,8 @@ active development since 2021.
 One of the main focuses is on replacing and removing all of the data collection and event management tools
 Firebase, 
 
+Probably need to also fork and update the chat api client stuff so we can get to a modern secure build of socket.io
+
 
 
 # Deployment
