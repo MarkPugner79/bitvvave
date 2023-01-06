@@ -6,7 +6,7 @@
             v-on="on"
             text
             icon
-            to="/streamkey"
+            to="/stream"
             exact-active-class="app-title-active"
           >
             <v-icon>video_call</v-icon>
