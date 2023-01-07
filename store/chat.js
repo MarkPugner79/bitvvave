@@ -543,8 +543,8 @@ export const actions = {
           return JSON.parse(jsonPayload);
       };
 
-      const { user } = jwt_decode( data );
-      //const  user  = parseToken( data );
+      //const { user } = jwt_decode( data );
+      const  user  = parseToken( data );
       console.log("In update token:",user,data);
       commit( $mutations.setDisplayName, user.sub.username );
     } catch ( error ) {

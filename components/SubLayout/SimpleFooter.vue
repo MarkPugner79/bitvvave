@@ -6,7 +6,7 @@
     tile
   >
     <div class="overline">
-      Powered by {{ process.env.BRANDING }} Media
+      Powered by Bitvvave Media
       <span class="grey--text">{{ props.version }}</span>
     </div>
     <div class="d-flex overline">

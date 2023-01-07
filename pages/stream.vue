@@ -351,6 +351,14 @@
           return JSON.parse(jsonPayload);
       };
         //load_chatToken();
+        if (localStorage.getItem('troll')) {
+            usertoken = localStorage.getItem('troll');
+            console.log("Should have decoded a token:", usertoken);
+            // should then parse
+            let user = parseToken( usertoken );
+            console.log("Decoded user:",user.sub.username);
+            //this.streamerName = user;
+        }
         if (localStorage.getItem('chatToken')) {
             usertoken = localStorage.getItem('chatToken');
             console.log("Should have decoded a token:", usertoken);
@@ -359,6 +367,7 @@
             console.log("Decoded user:",user.sub.username);
             //this.streamerName = user;
         }
+
         socketlc.emit('new user', {jwt:usertoken});
         
         //document.getElementById('broadcast-id').disabled = true;
@@ -419,7 +428,7 @@
   export default {
     name: 'dashboard',
 
-    middleware: 'auth',
+    //middleware: 'auth',
 
     data() {
       return {

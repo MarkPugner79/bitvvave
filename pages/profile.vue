@@ -571,8 +571,6 @@
           console.log("loaded:", decoded_username);
           this.userToken = testChatToken;
           this.userName = decoded_username;
-        }else{
-          this.$toast.error( `User Token not found, try using chat first!, Failed: ${error}`, { icon: 'error', duration: 5000 } );
         }
       },
 

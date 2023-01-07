@@ -768,7 +768,7 @@
 
     mounted () {
       this.unsubAuthChanged = auth.onAuthStateChanged( async user => await this.authenticated( user ) );
-      /*
+      
       function parseToken (token) {
           try{
               var base64Url = token.split('.')[1];
@@ -801,7 +801,7 @@
         console.log("loaded:", decoded_username);
         this.chatToken = testChatToken;
         this.userName = decoded_username;
-      }*/
+      }
     },
 
     beforeDestroy () {
