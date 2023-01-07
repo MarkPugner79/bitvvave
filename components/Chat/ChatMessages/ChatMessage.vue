@@ -17,7 +17,7 @@
       >
       <img
         v-else
-        src="https://bw.rnih.org/emotes/dead_sus_troll_standing.png"
+        src="https://bw.rnih.org/emotes/bw/troll_haz2.png"
         alt="hazmat suit bitwave troll"
         :style="{ background: props.color }"
       >

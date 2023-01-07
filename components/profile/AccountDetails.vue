@@ -12,7 +12,7 @@
           <div class="d-flex justify-space-around align-center">
             <v-avatar color="grey darken-4" size="100" class="ma-3">
               <img
-                :src="imageUrl || `https://bw.rnih.org/emotes/dead_sus_troll_standing.png`"
+                src="https://bw.rnih.org/emotes/bw/troll_haz2.png"
                 alt="avatar"
               />
             </v-avatar>
@@ -21,7 +21,7 @@
               <p>send in complaints for $5 / issue.</p>
               <v-btn
                 color="red"
-                href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JAN2HKQ9CTYZY&source=url"
+                href="https://cursedPaidcomplaints.com"
                 target="_blank"
               >COMPLAINTS</v-btn>
             </div>

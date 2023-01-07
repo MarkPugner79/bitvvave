@@ -96,7 +96,7 @@ Initial service start:
 ```pm2 start "npm run dev" --name bitvvave
 ```
 
-``` pm2 start nvm exec 16 npm run dev --name bitvvave
+``` pm2 start npm run dev --name bitvvave
 pm2 save
 ```
 

@@ -31,7 +31,8 @@
                 type="image/webp"
               >
               <img
-                :src="avatar"
+                src="https://bw.rnih.org/emotes/bw/troll_haz2.png"
+                
                 :alt="username"
               >
             </picture>
