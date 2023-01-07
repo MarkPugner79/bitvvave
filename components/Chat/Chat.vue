@@ -482,6 +482,29 @@
         // Local vs. Global which looks nicer than having
         // Global and Local animated and mix when leaving local
         // this.messages = [];
+        // get the chat settings 
+        if(localStorage.getItem('messageCache')){
+          if(this.getMessageCache){
+            const messageStr = localStorage.getItem('messageCache');
+            if(messageStr){
+              try{
+
+                this.messages = JSON.parse(messageStr);
+                // Scroll immediately after hydration
+                if ( process.client ) {
+                  this.$nextTick( () => {
+                    if ( this.$refs['chatmessages'] ) this.$refs['chatmessages'].jumpToBottom();
+                    else console.warn( 'Failed to find chat container after hydration' );
+                  });
+                }
+              }catch(ex){
+                
+              }
+            }
+          }
+        }
+        //localStorage.setItem('messageCache',JSON.stringify(this.messages));
+
         if ( !this.messages ) this.messages = [];
 
         const success = await bitwaveChat.hydrate();
@@ -589,6 +612,11 @@
 
           // Add message to list
           this.messages.push( Object.freeze( m ) );
+
+          // Check for message caching option, should default on
+          if(this.getMessageCache){
+            localStorage.setItem('messageCache',JSON.stringify(this.messages));
+          }
 
           // Trigger scroll request
           needsScroll = true;
@@ -734,7 +762,7 @@
           {
             _id: Date.now(),
             timestamp: Date.now(),
-            username: '[bitwave.tv]',
+            username: '[bitvvave.tv]',
             userColor: color ? color : '#FFF',
             avatar: process.env.TROLLAVATAR || 'https://cdn.discordapp.com/attachments/689510716226404424/700724139895423107/d5w10d7-a901e3bc-8c39-4c54-8907-d46151015dbc.gif',
             message: message,
@@ -856,6 +884,7 @@
         getHideTrolls     : Chat.$states.hideTrolls,
         getTrollTts       : Chat.$states.trollTts,
         getCleanTts       : Chat.$states.cleanTts,
+        getMessageCache   : Chat.$states.messageCache,
         getTtsRate        : Chat.$states.ttsRate,
         getTtsReadUsername: Chat.$states.ttsReadUsername,
         getTtsTimeout     : Chat.$states.ttsTimeout,
@@ -925,6 +954,12 @@
           this.setCleanTts( val );
         },
         get () { return this.getCleanTts; }
+      },
+      messageCache:{
+        set(val){
+          this.setMessageCache(val);
+        },
+        get () { return this.getMessageCache; }
       },
 
       async liveStreamers () {

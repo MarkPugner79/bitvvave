@@ -31,6 +31,8 @@ const $states = {
   autocomplete    : 'AUTOCOMPLETE',
   highDensity     : 'HIGH_DENSITY',
 
+  messageCache     : 'MESSAGE_CACHE',
+
   ignoreList          : 'IGNORE_LIST',
   ignoreChannelList   : 'CHANNEL_IGNORE_LIST',
 
@@ -88,6 +90,9 @@ const $mutations = {
   setTtsVolume       : 'SET_TTS_VOLUME',
   setTtsVoice        : 'SET_TTS_VOICE',
   setNotify          : 'SET_NOTIFY',
+
+  setMessageCache     : 'SET_MESSAGE_CACHE',
+  
 
   setIgnoreList      : 'SET_IGNORE_LIST',
   addIgnoreList      : 'ADD_IGNORE_LIST',
@@ -174,6 +179,8 @@ export const state = () => ({
   [$states.notify]          : true,
   [$states.autocomplete]    : true,
   [$states.highDensity]     : false,
+
+  [$states.messageCache]    : true,
 
   [$states.ignoreList]          : [],
   [$states.ignoreChannelList]   : [],
@@ -412,6 +419,12 @@ export const mutations = {
     if ( data === null ) state[$states.message] = '';
     else state[$states.message] = data;
     saveToLocalStorage( { [$states.message]: state[$states.message] } );
+  },
+
+  // Set message cache
+  [$mutations.setMessageCache] ( state, data ) {
+    state[$states.messageCache] = data;
+    saveToLocalStorage( { [$states.messageCache]: data } );
   },
 
   // Append to current input message
@@ -680,6 +693,7 @@ export const actions = {
       [$states.ttsTimeout, $mutations.setTtsTimeout],
       [$states.ttsVolume, $mutations.setTtsVolume],
       [$states.message, $mutations.setMessage],
+      [$states.messageCache, $mutations.setMessageCache],
     ]);
 
     let oldSettings = new Map([

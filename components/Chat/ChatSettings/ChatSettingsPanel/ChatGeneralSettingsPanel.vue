@@ -32,6 +32,31 @@
         </template>
       </v-switch>
 
+      <!-- Message Cache Persistent Local Messages -->
+      <v-switch
+        v-model="messageCache"
+        class="mt-3"
+        color="primary"
+        hide-details
+        dense
+        inset
+      >
+        <template #label>
+          <div>
+            <span>Message Cache</span>
+            <v-tooltip top color="blue-grey darken-4">
+              <template #activator="{ on: tooltip }">
+                <v-btn v-on="{ ...tooltip }" class="ml-1" x-small icon>
+                  <v-icon color="grey">help_outline</v-icon>
+                </v-btn>
+              </template>
+              <span><b>OFF</b> - messages are not stored locally.<br>
+                <b>ON</b> - messages stick around between page changes.</span>
+            </v-tooltip>
+          </div>
+        </template>
+      </v-switch>
+
       <!-- Receive @'s in Local -->
       <v-switch
         v-model="receiveMentionsInLocal"
@@ -199,6 +224,7 @@
         setAutocomplete   : Chat.$mutations.setAutocomplete,
         setHighDensity    : Chat.$mutations.setHighDensity,
         setReceiveMentionsInLocal : Chat.$mutations.setReceiveMentionsInLocal,
+        setMessageCache   : Chat.$mutations.setMessageCache,
       }),
 
       updateSettings() {
@@ -218,6 +244,7 @@
         getAutocomplete   : Chat.$states.autocomplete,
         getHighDensity    : Chat.$states.highDensity,
         getReceiveMentionsInLocal : Chat.$states.receiveMentionsInLocal,
+        getMessageCache   : Chat.$states.messageCache,
       }),
 
       globalChat: {
@@ -226,6 +253,14 @@
           //this.$analytics.logEvent( 'global_chat', { value: val } );
         },
         get () { return this.getModeGlobal }
+      },
+
+      messageCache: {
+        set ( val ) {
+          this.setMessageCache( val );
+          //this.$analytics.logEvent( 'global_chat', { value: val } );
+        },
+        get () { return this.getMessageCache }
       },
 
       showTimestamps: {
