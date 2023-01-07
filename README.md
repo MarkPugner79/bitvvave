@@ -93,7 +93,7 @@ sudo systemctl start pm2-bitvvave.service
 ```
 
 Initial service start:
-```nvm exec 16 pm2 start npm run dev --name bitvvave
+```pm2 start "npm run dev" --name bitvvave
 ```
 
 ``` pm2 start nvm exec 16 npm run dev --name bitvvave
