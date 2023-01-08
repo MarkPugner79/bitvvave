@@ -75,7 +75,7 @@
 
     data () {
       return {
-        lazyImg: 'https://cdn.bitwave.tv/static/img/Bitwave_Banner-256.jpg',
+        lazyImg: '/images/bitwave-banner.jpg',
       }
     },
 

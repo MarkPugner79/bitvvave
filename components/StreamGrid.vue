@@ -119,7 +119,7 @@
         const coeff = 1000 * 60; // ms * sec
         const timestamp = Math.round( Date.now() / coeff );
 
-        const _thumbnail = this.thumbnails[this.imageIndex] || 'https://cdn.bitwave.tv/static/img/Bitwave_Banner.jpg';
+        const _thumbnail = this.thumbnails[this.imageIndex] || '/images/bitwave-banner.jpg';
 
         this.streams[this.imageIndex].thumbnail = `${_thumbnail}?${timestamp}`;
       },
