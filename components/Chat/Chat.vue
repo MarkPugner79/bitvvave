@@ -93,8 +93,15 @@
 <script>
   import { auth, db } from '@/plugins/firebase.js';
 
-  import * as _bitwaveChat from '@bitwave/chat-client';
+  // probably make this a local plugin and replace this everywehre because haveing it hard coded to the wrong endpoints sucks
+  // and maintaing two codebases also sucks
+  // look at using the /build outputs since I think that is how it is imported into this project anyways
+  //import * as _bitwaveChat from '@bitwave/chat-client';
+  import * as _bitwaveChat from '@/plugins/chat-client/api.js';
   const bitwaveChat = _bitwaveChat.default;
+
+  bitwaveChat.setApiServer(process.env.APISERVER);
+  bitwaveChat.setChatServer(process.env.CHATSERVER);
 
   import AddOns from '@/components/Chat/AddOns';
   import ChatHeader from '@/components/Chat/ChatHeader';
@@ -579,12 +586,24 @@
           if ( this.filterMessage( m ) ) return;
 
           const pattern = new RegExp( `@${this.username}\\b`, 'gi' );
+          //const pattern2 = new RegExp( `${this.username}\\b`, 'gi' );
 
           // Add username highlighting
           m.message = m.message.replace( pattern, `<span class="highlight">$&</span>` );
 
           // Notification Sounds
-          if ( this.notify ) if ( pattern.test( m.message ) ) this.sound.play().then();
+         // if ( this.notify ) if ( pattern2.test( m.message ) ) this.sound.play().then();
+
+          // Lets do a much simpler version of this:
+          if ( this.notify ){
+            console.log("notify has been enabled");
+            console.log("Username should be in this to play the sound:",m.message);
+            if(m.message.toLowerCase().includes(this.username.toLowerCase())){
+              console.log("Says the username was found...");
+              console.log("Sound info:",this.sound);
+              this.sound.play().then();
+            }
+          }
 
           // For Text to Speech
           if ( this.getUseTts ) {
@@ -1017,6 +1036,9 @@
       this.setInputRateLimit( false );
       this.setInputRateLimitMs( 0 );
 
+      // Setup Notification Sound
+      this.sound.src = '/sounds/tweet.mp3';
+      this.sound.volume = .25;
       /*setInterval( () => {
         const timeLeft = this.inputRateLimitMs - 1000;
         if ( timeLeft > 1000 ) {
@@ -1030,8 +1052,13 @@
       // Load settings from localstorage
       await this.loadSettings();
 
-      await this.connectToChat();
-      await this.hydrate();
+      
+      await this.connectToChat().catch(error => {
+        console.log("Error during chat connection...");
+      });
+      await this.hydrate().catch(error => {
+        console.log("Error during chat hydration...");
+      });
 
       this.setRoom( this.page );
 
@@ -1105,9 +1132,8 @@
       this.userStats.defaultHistogramSettings = { create: true, size: this.getStatHistogramSize };
       this.statInterval = setInterval( () => this.onChatStatTick(), this.getStatTickRate * 1000 );
 
-      // Setup Notification Sound
-      this.sound.src = '/sounds/tweet.mp3';
-      this.sound.volume = .25;
+      
+      
     }
     
     
