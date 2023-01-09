@@ -188,7 +188,7 @@
 
   window.io = io;
   //connection.io = io;
-  
+  // make these more configurable 
   connection.iceServers = [];
   connection.iceServers.push({
       urls: 'stun:stun.l.google.com:19302'
@@ -1079,6 +1079,7 @@
     },
 
     beforeDestroy () {
+      // remove the stream and clean it up/leave
       window.removeEventListener( 'orientationchange', this.onOrientationChange );
       if ( this.streamDataListener ) this.streamDataListener();
       if ( this.offlineResetInterval ) clearInterval( this.offlineResetInterval );

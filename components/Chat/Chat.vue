@@ -592,18 +592,9 @@
           m.message = m.message.replace( pattern, `<span class="highlight">$&</span>` );
 
           // Notification Sounds
-         // if ( this.notify ) if ( pattern2.test( m.message ) ) this.sound.play().then();
+         if ( this.notify ) if ( pattern.test( m.message ) ) this.sound.play().then();
 
-          // Lets do a much simpler version of this:
-          if ( this.notify ){
-            console.log("notify has been enabled");
-            console.log("Username should be in this to play the sound:",m.message);
-            if(m.message.toLowerCase().includes(this.username.toLowerCase())){
-              console.log("Says the username was found...");
-              console.log("Sound info:",this.sound);
-              this.sound.play().then();
-            }
-          }
+          
 
           // For Text to Speech
           if ( this.getUseTts ) {

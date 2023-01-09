@@ -94,11 +94,16 @@
 
     methods: {
       async createFireworks () {
+
+        const channel = this.$route.params.watch;
+        //const streamer  = ( this.name || channel ).toLowerCase();
         const payload = {
           message: this.FireworksMessage,
           subtext: this.FireworksSubtext,
-          channel: this.channel
+          channel: channel,
         };
+
+        console.log("Should create fireworks:", payload);
 
         try {
           const { data } = await this.$axios.post(
