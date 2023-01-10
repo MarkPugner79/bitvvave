@@ -50,7 +50,7 @@ $ npm start
 # Security
 
 If you find a security problem please contact the project or pay attention to the dependencies in use.
-This is a large codebase, please consider that it has components that are out of date, and has been under
+This is a large codebase, please consider that it has components that are out of date, and hasn't been under
 active development since 2021.
 
 # TODO
