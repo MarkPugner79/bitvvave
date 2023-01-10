@@ -167,7 +167,7 @@
       return {
         mounted: false,
         player: null,
-        poster: 'https://cdn.bitwave.tv/static/img/Bitwave_Banner.jpg',
+        poster: '/images/bitwave-banner.jpg',
         chatMessages: null,
         offline: true,
       }

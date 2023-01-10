@@ -517,7 +517,7 @@
       },
 
       getThumbnail ( thumbnails ) {
-        if ( !thumbnails || !thumbnails.length ) return 'https://cdn.bitwave.tv/static/img/Bitwave_Banner.jpg';
+        if ( !thumbnails || !thumbnails.length ) return '/images/bitwave-banner.jpg';
         return thumbnails[ Math.floor( Math.random() * thumbnails.length ) ];
       },
 

@@ -70,7 +70,7 @@
 
   const title = `Stream Replays - [bitwave.tv]`;
   const description = `Browse the most recent stream replays available.`;
-  const image = `https://cdn.bitwave.tv/static/img/Bitwave_Banner.jpg`;
+  const image = `/images/bitwave-banner.jpg`;
 
   export default {
     name: 'replays',

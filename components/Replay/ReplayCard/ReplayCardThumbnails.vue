@@ -69,7 +69,7 @@
         thumbnailIndex: 0,
         changeThumbnailInterval: null,
         thumbnailLoaded: false,
-        lazySource: 'https://cdn.bitwave.tv/static/img/Bitwave_Banner.jpg',
+        lazySource: '/images/bitwave-banner.jpg',
         blurOverride: false,
       };
     },

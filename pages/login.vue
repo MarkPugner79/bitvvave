@@ -7,7 +7,7 @@
     >
       <img
         style="max-width: 90%"
-        src="https://cdn.bitwave.tv/static/img/bitwavetv.png"
+        src="/images/bitwavetv.png"
         alt="bitwave live streaming platform"
         crossorigin
       />

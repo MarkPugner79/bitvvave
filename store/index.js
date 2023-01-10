@@ -197,7 +197,9 @@ export const getters = {
 
   // Get Channel Viewer Data
   [$getters.getChannelViews] ( state ) {
+    console.log("Channel Views",state[$states.channelsViewers]);
     return channel => {
+
       if ( !channel && state[$states.channelsViewers] ) return 0;
       try {
         const c = state[$states.channelsViewers].find( c => c.channel.toLowerCase() === channel.toLowerCase() );

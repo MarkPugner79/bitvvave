@@ -264,7 +264,7 @@
 
       // adjust default image according to skin
       const errorPoster = isOdysee
-        ? 'https://cdn.bitwave.tv/static/img/BitWave2.sm.jpg'
+        ? '/images/bitwavetv.png'
         : 'https://cdn.bitwave.tv/static/img/odysee-banner-live-mockup-2.jpg';
 
       // Timeout to prevent SSR from locking up

@@ -32,7 +32,7 @@ module.exports = {
       { charset: 'utf-8' },
       { property: 'viewport',     content: 'width=device-width, initial-scale=1' },
       { property: 'og:site_name', content: '[bitvvave.tv]' },
-      { property: 'og:image',     content: 'https://cdn.bitwave.tv/static/img/Bitwave_Banner.jpg', hid: 'og:image' },
+      { property: 'og:image',     content: '/images/bitwave-banner.jpg', hid: 'og:image' },
       { property: 'description',  content: pkg.description, hid: 'description' },
       // https://cdn.bitwave.tv/static/img/BitWave2.sm.jpg // old image
     ],
@@ -144,7 +144,7 @@ module.exports = {
 
         // Cache basic API responses
         {
-          urlPattern: 'https://' + process.env.APISERVER + '/api/(?:channels/list|bump)$',
+          urlPattern: process.env.APISERVER + 'api/(?:channels/list|bump)$',
           handler: 'NetworkFirst',
           method: 'GET',
           strategyOptions: {
@@ -154,7 +154,7 @@ module.exports = {
 
         // Long lived API responses
         {
-          urlPattern: 'https://' + process.env.APISERVER + '/api/channels(/?|/([a-zA-Z0-9._-]+)?)$',
+          urlPattern: process.env.APISERVER + 'api/channels(/?|/([a-zA-Z0-9._-]+)?)$',
           handler: 'NetworkFirst',
           method: 'GET',
           strategyOptions: {
@@ -164,7 +164,7 @@ module.exports = {
 
         // Cache emotes
         {
-          urlPattern: 'https://' + process.env.APISERVER + '/emotes/(.*)\\?4$',
+          urlPattern: process.env.APISERVER + 'emotes/(.*)\\?4$',
           handler: 'CacheFirst',
           method: 'GET',
           strategyOptions: {
@@ -195,11 +195,11 @@ module.exports = {
         */
 
         // Assets
-        'https://' + process.env.APISERVER + '/litechat/hit.wav',
+        process.env.CDNSERVERURL + 'litechat/hit.wav',
         '/sounds/tweet.mp3',
         '/images/icon-2.png',
-        'https://' + process.env.APISERVER + '/static/img/Bitwave_Banner.jpg',
-        'https://' + process.env.APISERVER + '/emotes/dead_sus_troll_standing.png',
+        '/static/images/bitwave-banner.jpg',
+        process.env.CDNSERVERURL + 'emotes/dead_sus_troll_standing.png',
         'https://fonts.googleapis.com/css?family=Material+Icons',
         'https://' + process.env.APISERVER + '/static/img/firework-banner.gif',
       ],

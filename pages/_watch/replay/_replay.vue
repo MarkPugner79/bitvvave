@@ -247,7 +247,7 @@
         avatar: null,
         title: '',
         description: '',
-        poster: 'https://cdn.bitwave.tv/static/img/Bitwave_Banner.jpg',
+        poster: '/images/bitwave-banner.jpg',
         live: false,
         nsfw: false,
         owner: null,
@@ -314,7 +314,7 @@
         if ( thumbnails && thumbnails[5] ) {
           poster = thumbnails[5];
         } else {
-          poster = 'https://cdn.bitwave.tv/static/img/Bitwave_Banner.jpg';
+          poster = '/images/bitwave-banner.jpg';
         }
 
         return {
@@ -342,7 +342,7 @@
           name: params.watch,
           title: 'SSR Error',
           nsfw: false,
-          poster: 'https://cdn.bitwave.tv/static/img/Bitwave_Banner.jpg',
+          poster: '/images/bitwave-banner.jpg',
         };
       }
 
