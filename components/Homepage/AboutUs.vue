@@ -3,7 +3,7 @@
     <v-card-title class="headline pb-2">
       <div>
         <div class="d-flex align-center">
-          <v-img
+          <!--<v-img
             class="d-block mx-3"
             contain
             max-height="2rem"
@@ -11,7 +11,7 @@
             src="https://cdn.bitwave.tv/static/emotes/cool_blobby.gif?_bw"
             alt="Cool blobby with sunglasses"
             crossorigin
-          />
+          />-->
           <h6 class="headline" style="width:100%">Welcome to [bitvvave.tv]</h6>
         </div>
         <div class="subheading font-weight-light grey--text" style="word-break: break-word;">

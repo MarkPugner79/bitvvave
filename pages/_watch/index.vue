@@ -155,21 +155,11 @@
   import { Player } from '@/store/player';
 
   import { db } from '@/plugins/firebase.js';
-  // import * as socketio from 'socket.io-client';
-  //import  * as RTCMultiConnection from '@/plugins/RTCMultiConnection.js'
-  //import { RTCMultiConnection } from '@/plugins/simpleRTC.js';
-  // https://debugah.com/solved-vueuncaught-typeerror-cannot-assign-to-read-only-propertyexports-of-object-14334/
-  // https://github.com/westonsoftware/vue-webrtc
-  //const io = require( 'socket.io/socket.io.js');
 
-  //import {io} from 'socket.io-client';
-  //import * as io from 'socket.io-client'
-  //import { io } from "socket.io-client";
-  // https://github.com/westonsoftware/vue-webrtc/blob/master/src/lib-components/vue-webrtc.vue
   
   import * as io from '@/plugins/socketio.js' // should import v4 of socket io
 
-  //const RTCMultiConnection = require('@/plugins/simpleRTC.js'); // so this seems to work after breaking the export system
+  // notice that the exports were removed from this, which were in the original library call
   import * as RTCMultiConnection from '@/plugins/simpleRTC.js'
   
   
@@ -178,12 +168,11 @@
   import StreamTopBar from '@/components/Channel/StreamTopBar';
   import StreamInfo from '@/components/Channel/StreamInfo';
   import BitwaveVideoPlayer from '@/components/BitPlayer/BitwaveVideoPlayer';
+  //import RtcVideoPlayer from '@/components/RtcPlayer/RtcVideoPlayer';
 
   const Stickers = async () => await import ( '@/components/effects/Stickers' );
 
-  //let connection = new rtcwrap();
-  // https://gitlab.com/daveseidman/broadcast-desktop
-
+ 
   let connection = new RTCMultiConnection(); // so this fires the second instance it would seem
 
   window.io = io;
@@ -281,6 +270,7 @@
 
     connection.onstreamended = function() {
       console.log("Stream ended...");
+      // should be hooked up for bumps
     };
 
     connection.onleave = function(event) {
@@ -474,7 +464,6 @@
     };
   } // end of do connection web rtc init
 
-
   // BACK TO NORMAL STREAM STUFF THAT ISN'T HANDLING WEBRTC CONNECTIONS
 
   export default {
@@ -511,6 +500,7 @@
       StreamInfo,
       Chat,
       BitwaveVideoPlayer,
+      //RtcVideoPlayer,
     },
 
     data () {
@@ -1010,8 +1000,8 @@
     },
 
     async created () {
-      
-      // START OF RTC SETUP
+          console.log("RTC PLAYER Should try to connect to:",this.name);
+       // START OF RTC SETUP
       let useRTC = true;
       if(useRTC){
               //this.videoPreview = document.getElementById('streamplayer');
@@ -1050,17 +1040,18 @@
           this.setPoster( this.poster );
           this.setSource({ url: this.url, type: this.type }); 
         }
+     
     },
 
     beforeMount(){
-      console.log("Before mount, should try and load but it's probably too soon to do setup, might need to move all the defs ")
+      //console.log("Before mount, should try and load but it's probably too soon to do setup, might need to move all the defs ")
       // https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByTagName
       //const vid_bind_cadidates = document.getElementsByTagName('bitwave-video-player'); // bind to the window could be the video element, bitwave-video-player
       //const num = vid_bind_cadidates.length;
       //console.log("Candidates to bind:", vid_bind_cadidates, ' count of cadidates:',num);
-      this.videoPreview = document.getElementById('rtcbinder');
-      console.log("Preview window thinger:",this.videoPreview);
-      console.log("Post video preview, maybe set it in the storage?");
+      //this.videoPreview = document.getElementById('rtcbinder');
+      //console.log("Preview window thinger:",this.videoPreview);
+      //console.log("Post video preview, maybe set it in the storage?");
     },
 
     async mounted () {

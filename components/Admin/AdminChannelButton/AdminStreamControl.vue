@@ -187,6 +187,7 @@
 
       async kickStreamer ( resetKey ) {
         try {
+          console.log("Kick/Reset Streamer:",this.streamer);
           const { data } = await this.$axios.post(
             this.createEndpoint( endpoint, !!resetKey ),
             { streamer: this.streamer },
