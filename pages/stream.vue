@@ -212,6 +212,8 @@
                 if (connection.DetectRTC.browser.name === 'Chrome') {
                     connection.getAllParticipants().forEach(function(p) {
                         if (p + '' != event.userid + '') {
+                            connection.replaceTrack(event.stream, p);
+                            /* https://github.com/muaz-khan/RTCMultiConnection/issues/927
                             var peer = connection.peers[p].peer;
                             peer.getLocalStreams().forEach(function(localStream) {
                                 peer.removeStream(localStream);
@@ -222,6 +224,7 @@
                             connection.dontAttachStream = true;
                             connection.renegotiate(p);
                             connection.dontAttachStream = false;
+                            */
                         }
                     });
                 }
