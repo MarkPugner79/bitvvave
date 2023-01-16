@@ -70,7 +70,8 @@ a sample script and further setup info bellow.
 Setup a user account. (recommended)
 `adduser bitvvave`
 
-```mkdir bitvvave.git
+```
+mkdir bitvvave.git
 cd bitvvave.git
 git init --bare
 nano hooks/post-receive
@@ -79,27 +80,32 @@ mkdir bitvvave
 ```
 
 ### Setup your reference to remote production for your local git
-```git remote add production ssh://user@server:/full/path/to/bare.git
+```
+git remote add production ssh://user@server:/full/path/to/bare.git
 git push production
 ```
 
 Uses the post-receive.example file to configur and setup your deployment
 
 ### Setup PM2
-```nvm exec 16 npm i pm2@latest -g
+```
+nvm exec 16 npm i pm2@latest -g
 nvm exec 16 pm2 startup systemd
 # Then you need to run the sudo as your user if you have permissions or as root to enable the startup
 sudo systemctl start pm2-bitvvave.service
 ```
 
 Initial service start:
-```pm2 start "npm run dev" --name bitvvave
+```
+pm2 start "npm run dev" --name bitvvave
 ```
 
-``` pm2 start npm run dev --name bitvvave
+```
+pm2 start npm run dev --name bitvvave
 pm2 save
 ```
 
 Cleanup a bad pm2 service name instance
-```pm2 delete bitvvave
+```
+pm2 delete bitvvave
 ```
