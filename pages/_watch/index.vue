@@ -179,19 +179,9 @@
   //connection.io = io;
   // make these more configurable 
   connection.iceServers = [];
-  connection.iceServers.push({
-      urls: 'stun:stun.l.google.com:19302'
-  });
-  connection.iceServers.push({
-      urls: 'turns:muazkhan.com:5349',
-      credential: 'muazkh',
-      username: 'hkzaum'
-  });
-  connection.iceServers.push({
-        urls: 'turns:fw.rnih.org:3478',
-        credential: 'lkjf42398yt34ut39wt8j4934jt98tj4',
-        username: 'ksdjfo4y893th3948thj3498'
-  });
+  connection.iceServers.push(process.env.ICESERVER1);
+  connection.iceServers.push(process.env.ICESERVER2);
+  connection.iceServers.push(process.env.ICESERVER3);
 
   console.log("After RTCM config");
     
@@ -426,7 +416,8 @@
                         if (p + '' != event.userid + '') {
 
                             connection.replaceTrack(event.stream, p);
-                            /* https://github.com/muaz-khan/RTCMultiConnection/issues/927
+                            /* Related to this specifically https://github.com/muaz-khan/RTCMultiConnection/issues/927 https://github.com/muaz-khan/RTCMultiConnection/issues/958 https://github.com/muaz-khan/RTCMultiConnection/issues/917
+                            // To fix maybe https://github.com/muaz-khan/RTCMultiConnection/issues/934 get local streams, get receivers
                             var peer = connection.peers[p].peer;
                             peer.getLocalStreams().forEach(function(localStream) {
                                 peer.removeStream(localStream);

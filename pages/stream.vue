@@ -79,19 +79,9 @@
     window.io = io;
 
     connection.iceServers = [];
-  connection.iceServers.push({
-      urls: 'stun:stun.l.google.com:19302'
-  });
-  connection.iceServers.push({
-      urls: 'turns:muazkhan.com:5349',
-      credential: 'muazkh',
-      username: 'hkzaum'
-  });
-  connection.iceServers.push({
-        urls: 'turns:fw.rnih.org:3478',
-        credential: 'lkjf42398yt34ut39wt8j4934jt98tj4',
-        username: 'ksdjfo4y893th3948thj3498'
-  });
+    connection.iceServers.push(process.env.ICESERVER1);
+    connection.iceServers.push(process.env.ICESERVER2);
+    connection.iceServers.push(process.env.ICESERVER3);
 
   // its mandatory in v3
   connection.enableScalableBroadcast = true;
@@ -115,7 +105,7 @@
 
     connection.setHighBitrateModeAudio(true);
 
-    let socketlc = io.connect('https://fw.rnih.org/', { transports: ['websocket'] });
+    let socketlc = io.connect(process.env.CHATSERVER, { transports: ['websocket'] });
 
     let do_init = true;
     if(do_init){
