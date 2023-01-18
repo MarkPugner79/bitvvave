@@ -383,7 +383,7 @@
         if ( !this.getMessage ) return;
 
         // disabled user matching
-        /*const usernameMatch = this.getMessage.match( /@[\w:\-_]*$/g );
+        const usernameMatch = this.getMessage.match( /@[\w:\-_]*$/g );
         if ( usernameMatch ) {
           // only set data once
           if ( this.autocompleteKey !== 'users' ) {
@@ -394,7 +394,7 @@
 
           this.autocompleteKey = 'users';
           return usernameMatch;
-        }*/
+        }
 
         const commandMatch = this.getMessage.match( /^\/[\w:\-_]*$/g );
         if ( commandMatch ) {
