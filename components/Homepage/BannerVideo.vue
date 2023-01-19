@@ -69,7 +69,7 @@
 
   import Chat from '@/components/Chat/Chat';
 
-  const preroll = 'https://cdn.bitwave.tv/static/REWIND.mp4';
+  const preroll = ''+ process.env.CDNSERVER + 'static/REWIND.mp4';
 
   export default {
     name: 'BannerVideo',
@@ -171,7 +171,7 @@
       },
 
       updatePlayerSrc () {
-        this.player.src({ type: 'video/mp4', src: 'https://cdn.bitwave.tv/static/bumps/Bump33-sm.mp4' });
+        this.player.src({ type: 'video/mp4', src: ''+ process.env.CDNSERVER + 'static/bumps/Bump33-sm.mp4' });
       },
     },
 
