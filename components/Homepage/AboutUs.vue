@@ -42,7 +42,7 @@
       </div>
 
       <div class="mb-1">A straight forward streaming service built entirely on open source software.</div>
-      <p>If you're interested in streaming here, head over to <nuxt-link to="/streamkey">bitvvave.tv/streamkey</nuxt-link> to get setup!</p>
+      <p>If you're interested in streaming here, head over to <nuxt-link to="/stream">{{ BRANDING_SITENAME }}/stream</nuxt-link> to get setup!</p>
 
       <div class="d-flex align-center">
         <v-btn
