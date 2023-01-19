@@ -45,6 +45,7 @@
 
 <script>
   import StreamPlayer from '@/components/Channel/StreamPlayer';
+  //import StreamPlayer from '@/components/Channel/RtcPlayer';
 
   import { mapMutations, mapState } from 'vuex';
   import { Player } from '@/store/player';

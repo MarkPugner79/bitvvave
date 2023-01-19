@@ -197,7 +197,7 @@ export const getters = {
 
   // Get Channel Viewer Data
   [$getters.getChannelViews] ( state ) {
-    console.log("Channel Views",state[$states.channelsViewers]);
+    //console.log("Channel Views, for side bar",state[$states.channelsViewers]);
     return channel => {
 
       if ( !channel && state[$states.channelsViewers] ) return 0;
@@ -212,10 +212,12 @@ export const getters = {
   },
 
   [$getters.getUserList] ( state ) {
+    //console.log("This should be hooked for the user list updates:",state[$states.userlist]);
     return state[$states.userlist];
   },
 
   [$getters.getUserCount] ( state ) {
+    //console.log("User count based on userlist:",state[$states.userlist]);
     return state[$states.userlist].length;
   },
 
@@ -284,6 +286,7 @@ export const mutations = {
   },
 
   [$mutations.setUserList] ( state, data ) {
+    console.log("user list to set:",)
     state[$states.userlist] = Object
       .keys( data )
       .map( key => {

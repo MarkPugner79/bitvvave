@@ -287,7 +287,7 @@
             console.error( `API server reponded with 404` );
             return {
               success: false,
-              error: { statusCode: 404, message: `Could not find channel.` },
+              error: { statusCode: 404, message: `Replay: Could not find channel.` },
             };
           }
         }

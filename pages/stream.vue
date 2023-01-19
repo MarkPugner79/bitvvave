@@ -380,7 +380,7 @@
             document.getElementById('broadcast-id').focus();
             return;
         }*/
-
+        let disable_stream_connect = false;
         disable_stream_connect = false;
         //document.getElementById("livestreams").disabled = true;
 
