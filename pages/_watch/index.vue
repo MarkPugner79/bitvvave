@@ -727,7 +727,7 @@
 
     async asyncData ( { $axios, params, error } ) {
       const channel = params.watch;
-
+      console.log("Should fetch channel data for:",channel);
       // Timeout to prevent SSR from locking up
       const timeout = process.server ? process.env.SSR_TIMEOUT : 0;
 
@@ -997,6 +997,7 @@
           console.log("RTC PLAYER Should try to connect to:",this.name);
        // START OF RTC SETUP
       let useRTC = true;
+      let disable_stream_connect = false;
       if(useRTC){
               //this.videoPreview = document.getElementById('streamplayer');
               console.log("Name to try and connect to:",this.name);
