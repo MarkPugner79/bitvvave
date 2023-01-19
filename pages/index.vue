@@ -144,19 +144,19 @@
 
     head () {
       return {
-        title: `Homepage - ${process.env.BRANDINGBRACKETS}`,
+        title: `Homepage - ${process.env.BRANDING.BRACKETS}`,
         link: [
-          { rel: 'canonical', href: `${process.env.BRANDINGURL}` },
+          { rel: 'canonical', href: `${process.env.BRANDING.URL}` },
         ],
         meta: [
-          { property: 'og:title',            hid: 'og:title',       content: `Livestream Homepage - ${process.env.BRANDINGBRACKETS}` },
-          { property: 'og:url',              hid: 'og:url',         content: `${process.env.BRANDINGURL}` },
+          { property: 'og:title',            hid: 'og:title',       content: `Livestream Homepage - ${process.env.BRANDING.BRACKETS}` },
+          { property: 'og:url',              hid: 'og:url',         content: `${process.env.BRANDING.URL}` },
           { property: 'og:description',      hid: 'og:description', content: `An open platform live streaming service for creators to freely express themselves.` },
           { property: 'og:image',            hid:'og:image',        content: this.poster},
           { property: 'description',         hid: 'description',    content: 'An open platform live streaming service for creators to freely express themselves.' },
           { property: 'twitter:card',        content: 'summary_large_image' },
           { property: 'twitter:site',        content: '@BitvvaveTV' },
-          { property: 'twitter:title',       content: 'Livestream Homepage - ' + process.env.BRANDINGBRACKETS },
+          { property: 'twitter:title',       content: 'Livestream Homepage - ' + process.env.BRANDING.BRACKETS },
           { property: 'twitter:description', content: 'An open platform live streaming service for creators to freely express themselves.' },
           { property: 'twitter:image',       content: this.poster },
         ],

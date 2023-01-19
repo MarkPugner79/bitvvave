@@ -41,7 +41,7 @@ module.exports = {
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href: process.env.BRANDINGFAV,
+        href: process.env.BRANDING.FAV,
         crossorigin: 'anonymouse',
       },
       {
@@ -211,8 +211,8 @@ module.exports = {
   ** Manifest Module
   */
     manifest: {
-      name: process.env.BRANDINGBRACKETS,
-      short_name: process.env.BRANDINGBRACKETS,
+      name: process.env.BRANDING.BRACKETS,
+      short_name: process.env.BRANDING.BRACKETS,
       description: 'An open platform live streaming service for creators to freely express themselves.',
       categories: [ 'entertainment', 'social' ],
       lang: 'en',
@@ -223,11 +223,11 @@ module.exports = {
 
     meta: {
       appleStatusBarStyle: 'black-translucent',
-      name: process.env.BRANDINGBRACKETS,
+      name: process.env.BRANDING.BRACKETS,
       description: 'An open platform live streaming service for creators to freely express themselves.',
       theme_color: '#13a9fe',
       ogType: 'website',
-      ogHost: process.env.BRANDINGURL,
+      ogHost: process.env.BRANDING.URL,
       twitterCard: 'summary_large_image',
       twitterSite: '@BitvvaveTV',
       // twitterCreator: '',

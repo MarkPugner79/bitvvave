@@ -467,12 +467,12 @@
 
     head () {
       return {
-        title: `${this.name} - ${process.env.BRANDINGBRACKETS}`,
+        title: `${this.name} - ${process.env.BRANDING.BRACKETS}`,
         link: [
           { rel: 'canonical', href: `https://bitvvave.tv/${this.name}` },
         ],
         meta: [
-          { property: 'og:title',            hid: 'og:title',       content: `${this.title} - ${process.env.BRANDINGBRACKETS}` },
+          { property: 'og:title',            hid: 'og:title',       content: `${this.title} - ${process.env.BRANDING.BRACKETS}` },
           { property: 'og:url',              hid: 'og:url',         content: `https://bitvvave.tv/${this.name}` },
           { property: 'og:description',      hid: 'og:description', content: ( this.description || '' ).substring( 0, 200 ) },
           { property: 'og:image',            hid: 'og:image',       content: this.poster },
@@ -513,7 +513,7 @@
         avatar: null,
         title: '',
         description: '',
-        poster: process.env.BRANDINGBANNER,
+        poster: process.env.BRANDING.BANNER,
         live: false,
         nsfw: false,
         owner: null,
