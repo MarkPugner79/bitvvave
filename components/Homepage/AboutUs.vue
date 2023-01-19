@@ -12,7 +12,7 @@
             alt="Cool blobby with sunglasses"
             crossorigin
           />-->
-          <h6 class="headline" style="width:100%">Welcome to [bitvvave.tv]</h6>
+          <h6 class="headline" style="width:100%">Welcome to {{ BRANDING_BRACKETS }}</h6>
         </div>
         <div class="subheading font-weight-light grey--text" style="word-break: break-word;">
           Same old look, even worse flavor!<br>
@@ -35,8 +35,9 @@
           Please consider donating to help us cover operating costs, and support freedom of expression.
         </div>
         <div>
-          BTC: <br>
-          ETH: 
+          BTC: {{ BTC }} <br>
+          ETH: {{ ETH }} <br>
+          XMR: {{ XMR }}
         </div>
       </div>
 
@@ -142,7 +143,7 @@
       <div class="mb-1">
         Thank you for helping
         <v-chip color="red" outlined small class="mx-1">ALPHA</v-chip>
-        test [bitvvave.tv] and I look forward to bringing more exciting features in the future.
+        test {{ BRANDING_BRACKETS }} and I look forward to bringing more exciting features in the future.
       </div>
 
       <!-- Warrant canary
@@ -184,6 +185,11 @@
     data() {
       return {
         copyrightText: `Bitvvave Media ©  ${new Date().getFullYear()}`,
+        BTC: process.env.GRIFT.BTC,
+        ETH: process.env.GRIFT.ETH,
+        XMR: process.env.GRIFT.XMR,
+        BRANDING_BRACKETS: process.env.BRANDING.BRACKETS,
+        BRANDING_SITENAME: process.env.BRANDING.SITENAME,
       };
     },
 
