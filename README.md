@@ -26,6 +26,10 @@ Install node js 16 with npm
 Example of how it should be ran, modify this in post-receive to work as a production/dev environment.
 `nvm exec 16 npm run dev`
 
+Alternatively you can bind it to your LAN address for local testing using
+`HOST=0 PORT=3000 npm run dev`
+However keep in mind that this does not seem to work with Node Version Manager.
+
 ## Dev Setup
 
 ``` bash
