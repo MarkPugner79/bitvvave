@@ -119,8 +119,8 @@
     data () {
       return {
         //bwLogo: '/images/icon-2.png',
-        bwLogo: process.env.BRANDINGLOGO,
-        title: process.env.BRANDINGBRACKETS,
+        bwLogo: process.env.BRANDING.LOGO,
+        title: process.env.BRANDING.BRACKETS,
         drawer: null,
         ssr: true,
         systemAlertHidden: null,
