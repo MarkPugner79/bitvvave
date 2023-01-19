@@ -167,7 +167,7 @@
       return {
         mounted: false,
         player: null,
-        poster: '/images/bitwave-banner.jpg',
+        poster: ''+ process.env.CDNSERVER + 'images/bitwave-banner.jpg',
         chatMessages: null,
         offline: true,
       }
@@ -186,7 +186,7 @@
     async asyncData ({ $axios }) {
       const defaultLive = [
         {
-          "src": 'https://cdn.bitwave.tv/static/bumps/2a3un.mp4',
+          "src": ''+ process.env.CDNSERVER + 'bumps/2a3un.mp4',
           "name": "offline",
           "type": "video/mp4",
         },
