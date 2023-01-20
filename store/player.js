@@ -12,6 +12,7 @@ const $states = {
 
   // Player options
   keepLive: 'KEEP_LIVE',
+  webRTC: 'WEBRTC',
   disableBumps: 'DISABLE_BUMPS',
 
   // Player state
@@ -29,6 +30,7 @@ const $mutations = {
   setPiP: 'SET_PIP',
 
   setKeepLive: 'SET_KEEP_LIVE',
+  setWebRTC: 'SET_WEBRTC',
   setDisableBumps: 'SET_DISABLE_BUMPS',
 
   setDetach: 'SET_DETACH',
@@ -46,6 +48,7 @@ export const state = () => ({
 
   [$states.inPiP]: false,
 
+  [$states.webRTC]: false,
   [$states.keepLive]: false,
   [$states.disableBumps]: true,
   [$states.detach]: false,
@@ -77,6 +80,11 @@ export const mutations = {
     saveToLocalStorage( { keepLive: data } );
   },
 
+  [$mutations.setWebRTC] ( state, data ) {
+    state[$states.webRTC] = data;
+    saveToLocalStorage( { webRTC: data } );
+  },
+
   [$mutations.setDisableBumps] ( state, data ) {
     state[$states.disableBumps] = data;
     saveToLocalStorage( { disableBumps: data } );
@@ -103,10 +111,21 @@ export const actions = {
       }
     }
 
+    const webRTC = utils.readFromLocalStorage( 'webRTC' );
+    if ( webRTC ) {
+      commit( $mutations.setWebRTC, JSON.parse(webRTC) );
+      try {
+        localStorage.removeItem( 'webRTC' );
+      } catch ( error ) {
+        console.error( `Failed to remove 'webRTC' from localStorage`, error );
+      }
+    }
+
     utils.loadFromLocalStorage( 'player-settings', commit,
       new Map(
         [
           ['keepLive', $mutations.setKeepLive],
+          ['webRTC', $mutations.setWebRTC],
           ['disableBumps', $mutations.setDisableBumps],
       ])
     );

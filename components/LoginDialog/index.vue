@@ -609,6 +609,7 @@
           // Set firebase.auth.Auth.Persistence.SESSION
           await auth.setPersistence( 'local' );
           await auth.signInWithEmailAndPassword( this.user.email, this.user.password );
+          // should look at the doc store and see if the user color and be pulled out
         } catch ( error ) {
           this.showError( error.message );
           console.log( error.message );

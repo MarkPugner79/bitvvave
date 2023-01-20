@@ -226,6 +226,14 @@
         dense
         inset
       />
+      <v-switch
+        v-model="useWebRTC"
+        label="Use WebRTC stream source"
+        color="primary"
+        hide-details
+        dense
+        inset
+      />
     </v-card>
 
   </div>
@@ -493,6 +501,8 @@
 
       ...mapMutations(Player.namespace, {
         setPinToLive: Player.$mutations.setKeepLive,
+        setUseWebRTC: Player.$mutations.setWebRTC,
+        
         setDisableBumps: Player.$mutations.setDisableBumps,
       }),
     },
@@ -553,12 +563,18 @@
 
       ...mapState(Player.namespace, {
         getPinToLive: Player.$states.keepLive,
+        getUseWebRTC: Player.$states.webRTC,
         getDisableBumps: Player.$states.disableBumps,
       }),
 
       pinToLive: {
         set ( val ) { this.setPinToLive( val ) },
         get () { return this.getPinToLive }
+      },
+
+      useWebRTC: {
+        set ( val ) { this.setUseWebRTC( val ) },
+        get () { return this.getUseWebRTC }
       },
 
       disableAutoplayBumps: {
