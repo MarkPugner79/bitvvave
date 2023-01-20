@@ -551,15 +551,20 @@ export const actions = {
               }).join(''));
           }catch(ex){
               console.log("failed to parse the token")
-              return {user:{name:'failed'}}
+              return {sub:{username:'failed'}}
           }
           return JSON.parse(jsonPayload);
       };
 
-      //const { user } = jwt_decode( data );
-      const  user  = parseToken( data );
-      console.log("In update token:",user,data);
-      commit( $mutations.setDisplayName, user.sub.username );
+      const { user } = jwt_decode( data );
+      const  userTroll  = parseToken( data );
+      if(user){
+        //console.log("In update token:",user,data);
+        commit( $mutations.setDisplayName, user.sub.username );
+      }else{
+        //console.log("Should have parsed the user token:",user);
+        commit( $mutations.setDisplayName, userTroll.sub.username );
+      }
     } catch ( error ) {
       console.error( `Failed to update chat token.` );
       console.error( error.message );
@@ -574,7 +579,7 @@ export const actions = {
 
       // TODO: Can this be replaced with saveToLocalStorage
       try {
-        console.log("Trying to save updated info:",data);
+        //console.log("Trying to save updated info:",data);
         localStorage.setItem( 'chatToken', data.chatToken );
         //localStorage.setItem( 'chatToken', data );
       } catch ( error ) {

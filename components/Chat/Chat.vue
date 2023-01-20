@@ -525,6 +525,7 @@
             }
           );*/
           console.error( `Error hydrating chat!`, success );
+          // this seems like a dumb way to break chat...
           return;
         }
 

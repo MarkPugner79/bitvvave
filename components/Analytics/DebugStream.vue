@@ -247,7 +247,8 @@
 
   import BasicLine from '@/assets/js/Charts/BasicLine';
 
-  const APIServer = 'https://' + process.env.APISERVER + ''; // MAKE THIS INTO A GLOBAL CONFIG OPTION
+  const APIServer = '' + process.env.APISERVER + ''; // MAKE THIS INTO A GLOBAL CONFIG OPTION
+  // technically this should be for stream stats reporting...
 
   let minBandwidth = null;
 
@@ -432,6 +433,7 @@
     methods: {
       async connect () {
         const socketOptions = { transports: [ 'websocket' ] };
+        /*
 
         this.socket = socketio( APIServer, socketOptions );
 
@@ -441,7 +443,7 @@
 
         this.socket.on( 'live',    async ( data ) => await this.onStreamerLive( data ) );
         this.socket.on( 'update',  async ( data ) => await this.onStreamerUpdate( data ) );
-        this.socket.on( 'offline', async ( data ) => await this.onStreamerOffline( data ) );
+        this.socket.on( 'offline', async ( data ) => await this.onStreamerOffline( data ) );*/
       },
 
       async socketError ( error, reason ) {
