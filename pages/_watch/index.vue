@@ -156,12 +156,18 @@
 
   import { db } from '@/plugins/firebase.js';
 
+  // So lets disable webrtc
   
+  /* Including this breaks the page loading, so all of the webrtc bits have been commented out that would normally be used for watching
+  // There is still legacy parts thrown in here as far as videoPreview,connection,useWebRTC that have been added
+  // so where I left off on this is debugging getting the value of the player option to use webrtc which you can find webRTC and _watch
   import * as io from '@/plugins/socketio.js' // should import v4 of socket io
 
   // notice that the exports were removed from this, which were in the original library call
   import * as RTCMultiConnection from '@/plugins/simpleRTC.js'
-  
+
+  let connection = new RTCMultiConnection(); // so this fires the second instance it would seem
+  */
   
 
   import Chat from '@/components/Chat/Chat';
@@ -172,8 +178,8 @@
 
   const Stickers = async () => await import ( '@/components/effects/Stickers' );
 
-  let connection = new RTCMultiConnection(); // so this fires the second instance it would seem
-
+  
+  //console.log("_Watch.vue - Before Export useWebrtc:",this.useWebRTC);
 
   // BACK TO NORMAL STREAM STUFF THAT ISN'T HANDLING WEBRTC CONNECTIONS
 
@@ -224,6 +230,7 @@
 
         videoPreview: null,
         connection:null,
+        //useWebRTC:false,
 
         // Hydrated data defaults
         name: '',
@@ -287,9 +294,10 @@
         
         
         
-        
-        let do_init = this.useWebRTC;
+        /*
+        let do_init = false;//this.useWebRTC;
         if(do_init){
+          console.log("Setup Webrtc in get stream data HD audio");
           connection.setHighBitrateModeAudio(true); // This should be used with a checkbox to configure if the stream should be high bitrate on the streamer side so it can be configured, automatically via config on the clients side
         // user need to connect server, so that others can reach him.
         connection.connectSocket(function(socket) {
@@ -502,18 +510,7 @@
                               if (p + '' != event.userid + '') {
 
                                   connection.replaceTrack(event.stream, p);
-                                  /* Related to this specifically https://github.com/muaz-khan/RTCMultiConnection/issues/927 https://github.com/muaz-khan/RTCMultiConnection/issues/958 https://github.com/muaz-khan/RTCMultiConnection/issues/917
-                                  // To fix maybe https://github.com/muaz-khan/RTCMultiConnection/issues/934 get local streams, get receivers
-                                  var peer = connection.peers[p].peer;
-                                  peer.getLocalStreams().forEach(function(localStream) {
-                                      peer.removeStream(localStream);
-                                  });
-                                  event.stream.getTracks().forEach(function(track) {
-                                      peer.addTrack(track, event.stream);
-                                  });
-                                  connection.dontAttachStream = true;
-                                  connection.renegotiate(p);
-                                  connection.dontAttachStream = false;*/
+                                 
                               }
                           });
                       }
@@ -543,11 +540,14 @@
               localStorage.setItem(connection.socketMessageEvent, connection.sessionid);
           };
         }else{
+          console.log("Skipping webrtc section, to setup the stream requested.");
           // setup the stream data
-          this.setPoster( this.poster );
-          this.setSource({ url: this.url, type: this.type }); 
+          //this.setPoster( this.poster );
+          //this.setSource({ url: this.url, type: this.type }); 
+          //this.mounted = true;
+          // seems like this should fire and finish setup
         } // end of do connection web rtc init
-
+        */
           
        
         
@@ -932,12 +932,12 @@
         }
       },
 
-      webRTC:{
+      /*webRTC:{
         set(val){
           this.setWebRTC(val);
         },
         get () { return this.webRTC; }
-      },
+      },*/
 
       mobile () {
         return this.mounted
@@ -980,11 +980,14 @@
     },
 
     async created () {
-          console.log("RTC PLAYER Should try to connect to:",this.name);
+          
        // START OF RTC SETUP
-      let useRTC = this.useWebRTC;
+       //console.log("_Watch.vue - Created useWebrtc:",this.webRTC);
+       /*
+      let useRTC = false;//this.useWebRTC;
       let disable_stream_connect = false;
       if(useRTC){
+        console.log("RTC PLAYER Should try to connect to:",this.name);
               //this.videoPreview = document.getElementById('streamplayer');
               console.log("Name to try and connect to:",this.name);
               let broadcastId = this.name;
@@ -1018,9 +1021,13 @@
                   });
               });
         }else{
+          console.log("video-js PLAYER Should try to connect to:",this.name);
           this.setPoster( this.poster );
           this.setSource({ url: this.url, type: this.type }); 
         }
+        */
+        this.setPoster( this.poster );
+        this.setSource({ url: this.url, type: this.type }); 
      
     },
 
@@ -1033,8 +1040,11 @@
       //this.videoPreview = document.getElementById('rtcbinder');
       //console.log("Preview window thinger:",this.videoPreview);
       //console.log("Post video preview, maybe set it in the storage?");
-      if(this.useWebRTC){
-        
+      //console.log("_Watch.vue - Before Mount useWebrtc:",this.useWebRTC);
+      /*
+      let useWebRTc = false;
+      if(useWebRTc){
+        console.log("pre-mount should setup webrtc");
 
         window.io = io;
         //connection.io = io;
@@ -1064,6 +1074,7 @@
 
         connection.socketMessageEvent = 'scalable-media-broadcast-demo';
       }
+      */
 
 
     },

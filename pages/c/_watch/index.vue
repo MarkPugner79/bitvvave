@@ -156,12 +156,18 @@
 
   import { db } from '@/plugins/firebase.js';
 
+  // So lets disable webrtc
   
+  /* Including this breaks the page loading, so all of the webrtc bits have been commented out that would normally be used for watching
+  // There is still legacy parts thrown in here as far as videoPreview,connection,useWebRTC that have been added
+  // so where I left off on this is debugging getting the value of the player option to use webrtc which you can find webRTC and _watch
   import * as io from '@/plugins/socketio.js' // should import v4 of socket io
 
   // notice that the exports were removed from this, which were in the original library call
   import * as RTCMultiConnection from '@/plugins/simpleRTC.js'
-  
+
+  let connection = new RTCMultiConnection(); // so this fires the second instance it would seem
+  */
   
 
   import Chat from '@/components/Chat/Chat';
@@ -172,8 +178,8 @@
 
   const Stickers = async () => await import ( '@/components/effects/Stickers' );
 
-  let connection = new RTCMultiConnection(); // so this fires the second instance it would seem
-
+  
+  //console.log("_Watch.vue - Before Export useWebrtc:",this.useWebRTC);
 
   // BACK TO NORMAL STREAM STUFF THAT ISN'T HANDLING WEBRTC CONNECTIONS
 
@@ -224,6 +230,7 @@
 
         videoPreview: null,
         connection:null,
+        //useWebRTC:false,
 
         // Hydrated data defaults
         name: '',
@@ -287,271 +294,6 @@
         
         
         
-        
-        let do_init = this.useWebRTC;
-        if(do_init){
-          connection.setHighBitrateModeAudio(true); // This should be used with a checkbox to configure if the stream should be high bitrate on the streamer side so it can be configured, automatically via config on the clients side
-        // user need to connect server, so that others can reach him.
-        connection.connectSocket(function(socket) {
-              socket.on('logs', function(log) {
-                console.log("Socket logger...");
-                  //document.querySelector('h1').innerHTML = log.replace(/</g, '----').replace(/>/g, '___').replace(/----/g, '(<span style="color:red;">').replace(/___/g, '</span>)');
-                  console.log(log);
-              });
-
-              console.log("Socket for ");
-
-              // this event is emitted when a broadcast is already created.
-              socket.on('join-broadcaster', function(hintsToJoinBroadcast) {
-                  console.log('join-broadcaster', hintsToJoinBroadcast);
-
-                  connection.session = hintsToJoinBroadcast.typeOfStreams;
-                  connection.sdpConstraints.mandatory = {
-                      OfferToReceiveVideo: !!connection.session.video,
-                      OfferToReceiveAudio: !!connection.session.audio
-                  };
-                  connection.broadcastId = hintsToJoinBroadcast.broadcastId;
-                  connection.join(hintsToJoinBroadcast.userid);
-              });
-
-              socket.on('rejoin-broadcast', function(broadcastId) {
-                  console.log('rejoin-broadcast', broadcastId);
-
-                  connection.attachStreams = [];
-                  socket.emit('check-broadcast-presence', broadcastId, function(isBroadcastExists) {
-                      if (!isBroadcastExists) {
-                          // the first person (i.e. real-broadcaster) MUST set his user-id
-                          connection.userid = broadcastId;
-                      }
-
-                      socket.emit('join-broadcast', {
-                          broadcastId: broadcastId,
-                          userid: connection.userid,
-                          typeOfStreams: connection.session
-                      });
-                  });
-              });
-
-              socket.on('broadcast-stopped', function(broadcastId) {
-                  // alert('Broadcast has been stopped.');
-                  // location.reload();
-                  console.error('broadcast-stopped', broadcastId);
-                  //alert('This broadcast has been stopped.');
-              });
-
-              // this event is emitted when a broadcast is absent.
-              
-          });
-          
-
-          connection.onstreamended = function() {
-            console.log("Stream ended...");
-            // should be hooked up for bumps
-          };
-
-          connection.onleave = function(event) {
-              if (event.userid !== this.videoPreview.userid) return;
-
-              connection.getSocket(function(socket) {
-                  socket.emit('can-not-relay-broadcast');
-
-                  connection.isUpperUserLeft = true;
-
-                  if (allRecordedBlobs.length) {
-                      // playing lats recorded blob
-                      var lastBlob = allRecordedBlobs[allRecordedBlobs.length - 1];
-                      this.videoPreview = document.getElementById('rtcbinder'); // rtcbinder instead of rtcbinder and not hide the other player since we are going to bind inside of it
-                      console.log("OnLeave Preview window thinger:",this.videoPreview);
-                      this.videoPreview.src = URL.createObjectURL(lastBlob);
-                      this.videoPreview.play();
-                      allRecordedBlobs = [];
-                  } else if (connection.currentRecorder) {
-                      var recorder = connection.currentRecorder;
-                      connection.currentRecorder = null;
-                      recorder.stopRecording(function() {
-                          if (!connection.isUpperUserLeft) return;
-                          this.videoPreview = document.getElementById('rtcbinder');
-                          console.log("Stop recording Preview window thinger:",this.videoPreview);
-                          this.videoPreview.src = URL.createObjectURL(recorder.getBlob());
-                          this.videoPreview.play();
-                      });
-                  }
-
-                  if (connection.currentRecorder) {
-                    connection.currentRecorder.stopRecording();
-                      connection.currentRecorder = null;
-                  }
-              });
-          };
-
-          
-
-          var allRecordedBlobs = [];
-          
-
-          function repeatedlyRecordStream(stream) {
-              if (!enableRecordings) {
-                  return;
-              }
-
-              connection.currentRecorder = RecordRTC(stream, {
-                  type: 'video'
-              });
-
-              connection.currentRecorder.startRecording();
-
-              setTimeout(function() {
-                  if (connection.isUpperUserLeft || !connection.currentRecorder) {
-                      return;
-                  }
-
-                  connection.currentRecorder.stopRecording(function() {
-                      allRecordedBlobs.push(connection.currentRecorder.getBlob());
-
-                      if (connection.isUpperUserLeft) {
-                          return;
-                      }
-
-                      connection.currentRecorder = null;
-                      repeatedlyRecordStream(stream);
-                  });
-              }, 30 * 1000); // 30-seconds
-          };
-
-          connection.onNumberOfBroadcastViewersUpdated = function(event) {
-              if (!connection.isInitiator) return;
-
-              //document.getElementById('broadcast-viewers-counter').innerHTML = 'Number of broadcast viewers: <b>' + event.numberOfBroadcastViewers + '</b>';
-          };
-
-          connection.onstream = function(event) {
-              if (connection.isInitiator && event.type !== 'local') {
-                  return;
-              }
-
-              connection.isUpperUserLeft = false;
-              this.videoPreview = document.getElementById('rtcbinder');
-              this.videoPreview = document.getElementById('streamplayer_html5_api');
-              this.videoPreview.controls = true;
-              console.log("On stream event Preview window thinger:",this.videoPreview);
-              this.videoPreview.srcObject = event.stream;
-              // now this would be a good spot to hook up and throw the webrtc type info into it
-              // and give it another way to setup and setRTC source
-              try{
-                this.videoPreview.play();
-                // hide the bitwave-video-player
-                let shitwavevid = document.getElementById('shitwavevid');
-                //shitwavevid.hidden = true;
-                //this.videoPreview.hidden = false;
-                // find the play button and hide it on the player by class name 'vjs-icon-placeholder' 'vjs-big-play-button' title 'Play Video'
-                let nodePlayButton = document.getElementsByClassName('vjs-big-play-button');//document.querySelector('[title="Play Video"]');
-                console.log("We have:", nodePlayButton.length,nodePlayButton);
-                nodePlayButton[0].style.visibility = 'hidden';
-                nodePlayButton[0].removeAttribute('onclick');
-                let nodeClickOverlayButton = document.getElementsByClassName('vjs-text-track-display');//document.querySelector('[title="Play Video"]');
-
-                nodeClickOverlayButton[0].style.visibility = 'hidden';
-                // data.disabled might be able to prevent the click?
-                nodeClickOverlayButton[0].removeAttribute('onclick');
-
-                // modal
-                let nodeModalButton = document.getElementsByClassName('vjs-modal-dialog-content');//document.querySelector('[title="Play Video"]');
-                nodeModalButton.forEach(modal => {
-                  modal.style.visibility = 'hidden';
-                  //console.log("Modals found:",nodeModalButton);
-                  // data.disabled might be able to prevent the click?
-                  modal.removeAttribute('onclick');
-                  modal.hidden = true;
-                });
-                
-
-                let nodeErrorButton = document.getElementsByClassName('vjs-error-dialog-description');//document.querySelector('[title="Play Video"]');
-                nodeErrorButton.forEach(errbtn => {
-                  errbtn.style.visibility = 'hidden';
-                //console.log("Errors found:",nodeErrorButton);
-                // data.disabled might be able to prevent the click?
-                errbtn.removeAttribute('onclick');
-                errbtn.hidden = true;
-                });
-
-
-              }catch(error){
-                  console.log("There was an error auto playing, you probably need to manually click play");
-              }
-
-              this.videoPreview.userid = event.userid;
-
-              if (event.type === 'local') {
-                this.videoPreview.muted = true;
-              }
-
-              if (connection.isInitiator == false && event.type === 'remote') {
-                  // he is merely relaying the media
-                  connection.dontCaptureUserMedia = true;
-                  connection.attachStreams = [event.stream];
-                  connection.sdpConstraints.mandatory = {
-                      OfferToReceiveAudio: false,
-                      OfferToReceiveVideo: false
-                  };
-
-                  connection.getSocket(function(socket) {
-                      socket.emit('can-relay-broadcast');
-
-                      if (connection.DetectRTC.browser.name === 'Chrome') {
-                        connection.getAllParticipants().forEach(function(p) {
-                              if (p + '' != event.userid + '') {
-
-                                  connection.replaceTrack(event.stream, p);
-                                  /* Related to this specifically https://github.com/muaz-khan/RTCMultiConnection/issues/927 https://github.com/muaz-khan/RTCMultiConnection/issues/958 https://github.com/muaz-khan/RTCMultiConnection/issues/917
-                                  // To fix maybe https://github.com/muaz-khan/RTCMultiConnection/issues/934 get local streams, get receivers
-                                  var peer = connection.peers[p].peer;
-                                  peer.getLocalStreams().forEach(function(localStream) {
-                                      peer.removeStream(localStream);
-                                  });
-                                  event.stream.getTracks().forEach(function(track) {
-                                      peer.addTrack(track, event.stream);
-                                  });
-                                  connection.dontAttachStream = true;
-                                  connection.renegotiate(p);
-                                  connection.dontAttachStream = false;*/
-                              }
-                          });
-                      }
-
-                      if (connection.DetectRTC.browser.name === 'Firefox') {
-                          // Firefox is NOT supporting removeStream method
-                          // that's why using alternative hack.
-                          // NOTE: Firefox seems unable to replace-tracks of the remote-media-stream
-                          // need to ask all deeper nodes to rejoin
-                          connection.getAllParticipants().forEach(function(p) {
-                              if (p + '' != event.userid + '') {
-                                connection.replaceTrack(event.stream, p);
-                              }
-                          });
-                      }
-
-                      // Firefox seems UN_ABLE to record remote MediaStream
-                      // WebAudio solution merely records audio
-                      // so recording is skipped for Firefox.
-                      if (connection.DetectRTC.browser.name === 'Chrome') {
-                          repeatedlyRecordStream(event.stream);
-                      }
-                  });
-              }
-
-              // to keep room-id in cache
-              localStorage.setItem(connection.socketMessageEvent, connection.sessionid);
-          };
-        }else{
-          // setup the stream data
-          this.setPoster( this.poster );
-          this.setSource({ url: this.url, type: this.type }); 
-        } // end of do connection web rtc init
-
-          
-       
-        
-
           console.log("Yeah I hate retarded firebase, will be pruned or replaced with something even worse This would be the ideal place to patch in the WEBRTC");
       },
 
@@ -932,12 +674,12 @@
         }
       },
 
-      webRTC:{
+      /*webRTC:{
         set(val){
           this.setWebRTC(val);
         },
         get () { return this.webRTC; }
-      },
+      },*/
 
       mobile () {
         return this.mounted
@@ -981,91 +723,14 @@
 
     async created () {
           
-       // START OF RTC SETUP
-      let useRTC = this.useWebRTC;
-      let disable_stream_connect = false;
-      if(useRTC){
-        console.log("RTC PLAYER Should try to connect to:",this.name);
-              //this.videoPreview = document.getElementById('streamplayer');
-              console.log("Name to try and connect to:",this.name);
-              let broadcastId = this.name;
-              connection.extra.broadcastId = broadcastId;
-
-              connection.session = {
-                  audio: true,
-                  video: true,
-                  oneway: true
-              };
-
-              connection.getSocket(function(socket) {
-                  socket.emit('check-broadcast-presence', broadcastId, function(isBroadcastExists) {
-                      if (!isBroadcastExists) {
-                          // the first person (i.e. real-broadcaster) MUST set his user-id
-                          //connection.userid = broadcastId;
-                      }
-
-                      console.log('check-broadcast-presence', broadcastId, isBroadcastExists);
-                      if (isBroadcastExists) {
-                          socket.emit('join-broadcast', {
-                              broadcastId: broadcastId,
-                              userid: connection.userid,
-                              typeOfStreams: connection.session
-                          });
-                      }else{
-                          //alert("Stream is offline!");
-                          console.log("Stream is now offline!");
-                          disable_stream_connect = true;
-                      }
-                  });
-              });
-        }else{
-          console.log("video-js PLAYER Should try to connect to:",this.name);
-          this.setPoster( this.poster );
-          this.setSource({ url: this.url, type: this.type }); 
-        }
+       
+        this.setPoster( this.poster );
+        this.setSource({ url: this.url, type: this.type }); 
      
     },
 
     beforeMount(){
-      //console.log("Before mount, should try and load but it's probably too soon to do setup, might need to move all the defs ")
-      // https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementsByTagName
-      //const vid_bind_cadidates = document.getElementsByTagName('bitwave-video-player'); // bind to the window could be the video element, bitwave-video-player
-      //const num = vid_bind_cadidates.length;
-      //console.log("Candidates to bind:", vid_bind_cadidates, ' count of cadidates:',num);
-      //this.videoPreview = document.getElementById('rtcbinder');
-      //console.log("Preview window thinger:",this.videoPreview);
-      //console.log("Post video preview, maybe set it in the storage?");
-      if(this.useWebRTC){
-        console.log("pre-mount should setup webrtc");
-
-        window.io = io;
-        //connection.io = io;
-        // make these more configurable 
-        connection.iceServers = [];
-        connection.iceServers.push(process.env.ICESERVER1);
-        connection.iceServers.push(process.env.ICESERVER2);
-        connection.iceServers.push(process.env.ICESERVER3);
-
-        console.log("After RTCM config");
-          
-        // its mandatory in v3
-        connection.enableScalableBroadcast = true;
-
-        // each relaying-user should serve only 1 users
-        connection.maxRelayLimitPerUser = 1;
-        let enableRecordings = false;
-        // we don't need to keep room-opened
-        // scalable-broadcast.js will handle stuff itself.
-        connection.autoCloseEntireSession = true;
-
-        connection.highbitratemodeaudio = true; // see if we can force it on and to sound better
-
-        connection.socketURL = process.env.WEBRTCSERVER;
-
-
-
-        connection.socketMessageEvent = 'scalable-media-broadcast-demo';
-      }
+      
 
 
     },

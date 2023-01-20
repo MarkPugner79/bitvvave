@@ -34,7 +34,7 @@
         :xl="xl"
       >
         <stream-card
-          :to="stream.name"
+          :to="stream.cname"
           :image="stream.thumbnail"
           :nsfw="stream.nsfw"
           :title="stream.title"
@@ -93,9 +93,13 @@
         this.streamDataListener = streamRef.onSnapshot( async res => await this.dataChanged( res.docs ), error => console.warn( error ) );
         */
        console.log("Fires the active stream collection list and limits it to 16 long to be on the front page");
+       
       },
 
+
+
       async dataChanged( docs ) {
+        console.log("This should be replaced with a non firebase hook of when streams are updated/announced.")
         this.streams = docs.map( doc => {
           const stream = doc.data();
           const thumbnail = ( stream.live ? stream.thumbnail : stream.cover ) || stream.cover;
@@ -132,6 +136,7 @@
 
       streamerList () {
         const streams = this.streams.map( stream => {
+          stream.cname = "/c/" + stream.name;
           return { ...stream, viewCount: this.getChannelViews( stream.name ) || 0 };
         });
         return streams.sort( (a, b) => b.viewCount - a.viewCount );
