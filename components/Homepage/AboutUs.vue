@@ -151,7 +151,7 @@
       -->
 
       <div class="text-xs-right">
-        <em><small>&mdash; Pisspatch</small></em>
+        <em><small>&mdash; {{ BRANDING_OOPERATOR }}</small></em>
       </div>
     </v-card-text>
 
@@ -190,6 +190,7 @@
         XMR: process.env.GRIFT.XMR,
         BRANDING_BRACKETS: process.env.BRANDING.BRACKETS,
         BRANDING_SITENAME: process.env.BRANDING.SITENAME,
+        BRANDING_OOPERATOR: process.env.BRANDING.OOPERATOR,
       };
     },
 
