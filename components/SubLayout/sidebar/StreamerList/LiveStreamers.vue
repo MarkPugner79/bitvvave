@@ -52,7 +52,7 @@
             <v-list-item
               v-on="{ ...tooltip }"
               :key="user.owner"
-              :to="user.to"
+              :to="user.cname"
               class="py-1"
               router
               exact
@@ -155,6 +155,7 @@
           const { data } = await this.$axios.get( '' + process.env.APISERVER + 'v1/channels/live', { progress: false }  );
           if ( data && data.hasOwnProperty( 'streamers' ) ) {
             const streamers = data.streamers.map( stream => {
+              stream.cname = "/c/" + stream.name;
               return { ...stream, viewCount: this.getChannelViews( stream.name ) || 0 };
             });
 
