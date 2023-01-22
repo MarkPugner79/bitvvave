@@ -52,7 +52,7 @@
 
     data () {
       return {
-        title: '[bitvvave.tv]',
+        title: process.env.BRANDING.BRACKETS,
         dark: true,
         clipped: false,
       }
