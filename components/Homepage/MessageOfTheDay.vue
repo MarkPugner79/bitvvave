@@ -20,7 +20,7 @@
 
     data () {
       return {
-        MOTDText: process.env.MOTD.MOTD,
+        MOTDText: process.env.MOTD,
         MOTDDISCLAIMER: process.env.BITWAVE_ENV === 'development'
           ? 'development build'
           : process.env.MOTD.DISCLAIMER,
