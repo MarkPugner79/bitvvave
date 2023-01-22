@@ -773,9 +773,9 @@
           {
             _id: Date.now(),
             timestamp: Date.now(),
-            username: '[bitvvave.tv]',
+            username: process.env.BRANDING.BRACKETS,
             userColor: color ? color : '#FFF',
-            avatar: process.env.TROLLAVATAR || 'https://cdn.discordapp.com/attachments/689510716226404424/700724139895423107/d5w10d7-a901e3bc-8c39-4c54-8907-d46151015dbc.gif',
+            avatar: process.env.CDNSERVER + process.env.CHAT.SYSTEMAVATAR,
             message: message,
             channel: this.page,
           },
