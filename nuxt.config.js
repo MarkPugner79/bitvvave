@@ -201,7 +201,7 @@ module.exports = {
         '/static/images/bitwave-banner.jpg',
         process.env.CDNSERVERURL + 'emotes/dead_sus_troll_standing.png',
         'https://fonts.googleapis.com/css?family=Material+Icons',
-        'https://' + process.env.APISERVER + '/static/img/firework-banner.gif',
+        //'https://' + process.env.APISERVER + '/static/img/firework-banner.gif',
       ],
 
       // routingExtensions: [],
@@ -211,8 +211,8 @@ module.exports = {
   ** Manifest Module
   */
     manifest: {
-      name: process.env.BRANDING.BRACKETS,
-      short_name: process.env.BRANDING.BRACKETS,
+      name: process.env.BRANDING.BRACKETS || "[SET BRANDING.BRACKETS]",
+      short_name: process.env.BRANDING.BRACKETS || "[SET BRANDING.BRACKETS]",
       description: 'An open platform live streaming service for creators to freely express themselves.',
       categories: [ 'entertainment', 'social' ],
       lang: 'en',
@@ -223,11 +223,11 @@ module.exports = {
 
     meta: {
       appleStatusBarStyle: 'black-translucent',
-      name: process.env.BRANDING.BRACKETS,
+      name: process.env.BRANDING.BRACKETS || "[SET BRANDING.BRACKETS]",
       description: 'An open platform live streaming service for creators to freely express themselves.',
       theme_color: '#13a9fe',
       ogType: 'website',
-      ogHost: process.env.BRANDING.URL,
+      ogHost: process.env.BRANDING.URL || "[SET BRANDING.URL]",
       twitterCard: 'summary_large_image',
       twitterSite: '@BitvvaveTV',
       // twitterCreator: '',
