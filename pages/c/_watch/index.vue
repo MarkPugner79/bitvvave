@@ -42,18 +42,7 @@
             </div>
           </div>
 
-          <!-- Bitwave Stream Player Might need to hook fedwave video player for this-->
-          <video  id="rtcbinder"
-           class=" vjs-custom-skin vjs-big-play-centered vjs-16-9" 
-           controls  
-           playsinline  
-           
-           
-           
-            hidden :live="live" :docked="smartDetach" >
-            
-           
-          </video>
+          
 
 
           <bitwave-video-player
@@ -155,6 +144,10 @@
   import { Player } from '@/store/player';
 
   import { db } from '@/plugins/firebase.js';
+
+  /* TODO: 
+      https://nuxt.com/docs/guide/directory-structure/pages#alias Add a nice slug handler for channel and c
+  */
 
   // So lets disable webrtc
   
@@ -432,12 +425,14 @@
         this.setDisplayChat( true );
         ////this.$analytics.logEvent( 'show_chat' );
       },
-
+      // webrtcStart
       ...mapMutations(Player.namespace, {
         setSource: Player.$mutations.setSource,
         setPoster: Player.$mutations.setPoster,
         setDetach: Player.$mutations.setDetach,
         setWebRTC: Player.$mutations.setWebRTC,
+        setWebRTCid: Player.$mutations.setWebRTCid,
+        webrtcStart: Player.$mutations.setWebrtcStart,
       }),
 
       ...mapMutations(ChatStore.namespace,{
@@ -484,7 +479,7 @@
             console.log( `API server failed! Attempting to bypass.` );
 
             const streamer  = channel.toLowerCase();
-
+            
             /*const streamDoc = await db
               .collection( 'streams' )
               .doc( streamer )
@@ -650,7 +645,7 @@
         username : VStore.$getters.getUsername,
         user     : VStore.$getters.getUser,
       }),
-
+      // webrtcStart() needs mapped
       ...mapState(Player.namespace, {
         source : Player.$states.source,
         inPiP: Player.$states.inPiP,
@@ -658,6 +653,7 @@
         disableBumps : Player.$states.disableBumps,
         detach : Player.$states.detach,
         webRTC   : Player.$states.webRTC,
+
       }),
 
       ...mapState(ChatStore.namespace, {
@@ -723,8 +719,16 @@
 
     async created () {
           
-       
+      const channel = this.$route.params.watch;
+        const streamer  = ( this.name || channel ).toLowerCase();
+        
+        console.log("/c/watch Should try and get the webrtc state to:",channel); // maybe this needs to be in the store?
+        //this.webrtcStart(channel);
+        this.setWebRTCid(channel);
+        // needs restarted probably...
+        console.log("I hope it works...");
         this.setPoster( this.poster );
+        
         this.setSource({ url: this.url, type: this.type }); 
      
     },
