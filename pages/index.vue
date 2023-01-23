@@ -167,7 +167,7 @@
       return {
         mounted: false,
         player: null,
-        poster: ''+ process.env.CDNSERVER + 'images/bitwave-banner.jpg',
+        poster: process.env.BRANDING.BANNER || process.env.CDNSERVER + 'images/bitwave-banner.jpg',
         chatMessages: null,
         offline: true,
       }
