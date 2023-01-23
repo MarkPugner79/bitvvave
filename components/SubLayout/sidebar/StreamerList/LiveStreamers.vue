@@ -40,7 +40,7 @@
 
       <div
         v-for="( user ) in liveChannelList"
-        :key="user.owner"
+        :key="user.name"
       >
         <v-tooltip
           :open-delay="15"
