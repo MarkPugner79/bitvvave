@@ -775,7 +775,7 @@
             timestamp: Date.now(),
             username: process.env.BRANDING.BRACKETS,
             userColor: color ? color : '#FFF',
-            avatar: process.env.CDNSERVER + process.env.CHAT.SYSTEMAVATAR,
+            avatar: process.env.CHAT.SYSTEMAVATAR || 'https://cdn.discordapp.com/attachments/689510716226404424/700724139895423107/d5w10d7-a901e3bc-8c39-4c54-8907-d46151015dbc.gif',
             message: message,
             channel: this.page,
           },
