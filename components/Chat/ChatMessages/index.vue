@@ -55,7 +55,7 @@
           >
             <!-- Regular chat message -->
             <chat-message
-              v-if="msg.username !== ( index && messages[ index - 1 ].username )"
+              v-if="msg.username !== ( index && messages[ index - 1 ].username ) && msg.color !== ( index && messages[index - 1 ].color)"
               :message="msg.message"
               :badge="msg.badge"
               :username="msg.username"
