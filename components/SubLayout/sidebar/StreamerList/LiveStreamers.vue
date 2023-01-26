@@ -52,7 +52,7 @@
             <v-list-item
               v-on="{ ...tooltip }"
               :key="user.owner"
-              :to="user.cname"
+              :to="user.name"
               class="py-1"
               router
               exact
