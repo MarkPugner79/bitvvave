@@ -171,7 +171,13 @@
 
       // this should be the target of the stream is what I'm thinking...
     webrtcStart () {
-      this.playerDispose();
+      if(this.alreadyDisposed){
+
+      }else{
+        this.playerDispose();
+      }
+      this.alreadyDisposed = true;
+      //this.player.$emit
       console.log("During mounted calls - Should do webrtc stuff instead");
           console.log("Setup Webrtc in get stream data HD audio");
           connection.setHighBitrateModeAudio(true); // This should be used with a checkbox to configure if the stream should be high bitrate on the streamer side so it can be configured, automatically via config on the clients side
@@ -255,7 +261,7 @@
                       connection.currentRecorder = null;
                       recorder.stopRecording(function() {
                           if (!connection.isUpperUserLeft) return;
-                          this.videoPreview = document.getElementById('rtcbinder');
+                          this.videoPreview = document.getElementById('rtcbinder'); //this.videoPreview = document.getElementById('rtcbinder');
                           console.log("Stop recording Preview window thinger:",this.videoPreview);
                           this.videoPreview.src = URL.createObjectURL(recorder.getBlob());
                           this.videoPreview.play();
@@ -504,6 +510,7 @@
         console.log(`WebRTC status: ${this.webRTC}`);
         // this is where the check would be done for webrtc
         this.initialized = false;
+        this.alreadyDisposed = false;
         
 
         // https://github.com/ant-media/videojs-webrtc-plugin look at building a special plugin for webrtc
@@ -737,7 +744,7 @@
 
       trackWatchTime () {
         if ( this.player.paused() || !this.live ) {
-          return;;
+          return;
         }
 
         this.watchDuration += this.watchInterval;
@@ -748,7 +755,19 @@
       },
 
       playerDispose (){
-        if ( this.player ) this.player.dispose();
+        if(this.webRTC){
+          console.log("Webrtc before player destory check");
+          if(this.alreadyDisposed){
+
+          }else{
+            if ( this.player ) this.player.dispose();
+          }
+          
+          //this.$emit('ended');
+          
+        }else{
+          if ( this.player ) this.player.dispose();
+        }
       },
 
       reloadPlayer () {
