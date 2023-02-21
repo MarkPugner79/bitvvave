@@ -166,7 +166,7 @@
       },
 
       streamlink () {
-        return `https://bitwave.tv/${this.user}`;
+        return `https://bitvvave.tv/c/${this.user}`;
       },
 
       shareLink () {
@@ -177,8 +177,8 @@
         const text = `Come watch ${this.user}'s stream!\n`;
         const url = this.shareLink;
         const hashtags = 'freespeech';
-        const via = 'bitwavetv';
-        const related = 'bitwavetv,dispatchcommit';
+        const via = 'bitvvavetv';
+        const related = 'bitvvavetv,dispatchcommit';
         const base = 'https://twitter.com/intent/tweet';
 
         return `${base}?text=${encodeURI(text)}&url=${url}&hashtags=${hashtags}&via=${via}&related=${related}`;
