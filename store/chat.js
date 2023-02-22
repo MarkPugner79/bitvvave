@@ -540,8 +540,9 @@ export const actions = {
 
   async [$actions.updateChatToken] ( { commit }, data ) {
     try {
+      // is this what fails?
       commit( $mutations.setChatToken, data );
-
+      /*
       function parseToken (token) {
           try{
               var base64Url = token.split('.')[1];
@@ -556,6 +557,10 @@ export const actions = {
           return JSON.parse(jsonPayload);
       };
 
+      console.log("So what do we get for our data token:",data);
+      
+      // so this seems to fail because it's data
+
       const { user } = jwt_decode( data );
       const  userTroll  = parseToken( data );
       if(user){
@@ -564,7 +569,7 @@ export const actions = {
       }else{
         //console.log("Should have parsed the user token:",user);
         commit( $mutations.setDisplayName, userTroll.sub.username );
-      }
+      }*/
     } catch ( error ) {
       console.error( `Failed to update chat token.` );
       console.error( error.message );
@@ -734,7 +739,7 @@ export const actions = {
   async [$actions.sendWhisper] ( { state }, { receiver, message } ) {
     
     const endpoint = ''+ process.env.APISERVER +'v1/whispers/send';
-    console.log('WHisper to:',endpoint);
+    console.log('Wisper to:',endpoint);
     const payload = {
       chatToken: state[$states.chatToken],
       receiver: receiver,

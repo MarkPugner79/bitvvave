@@ -16,7 +16,7 @@
             type="image/webp"
           >
           <img
-            src="https://bw.rnih.org/emotes/bw/troll_haz2.png"
+            :src="avatar"
             :alt="username"
           >
         </picture>
@@ -29,7 +29,7 @@
           color="grey darken-4"
         >
           <img
-            src="https://bw.rnih.org/emotes/bw/troll_haz2.png"
+            src="https://bw.rnih.org/emotes/bw/fatchat.gif"
             alt="hazmat suit troll"
             crossorigin
           >

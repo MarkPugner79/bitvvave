@@ -47,8 +47,8 @@
           <v-avatar tile size="32">
             <img
               :src="bwLogo"
-              alt="bitwave.tv logo"
-              title="bitwave.tv homepage"
+              alt="bitvvave.tv logo"
+              title="bitvvave.tv homepage"
             />
           </v-avatar>
         </v-btn>
@@ -198,7 +198,7 @@
 
     async mounted () {
       this.ssr = false;
-
+      // so there is a mount error when doing nav -> channel aka /c/user, seems to break on nav
       try {
         this.systemAlertHidden = localStorage.getItem( 'hide-system-alert' );
       } catch ( error ) {

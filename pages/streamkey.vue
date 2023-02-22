@@ -121,7 +121,7 @@
               <v-card-text>
 
                 <div class="mb-3">
-                  To stream on bitwave.tv you first need a streaming software. I put the buttons below to make it easy for you.
+                  To stream on bitvvave.tv you first need a streaming software. I put the buttons below to make it easy for you.
                 </div>
                 <div class="mb-3">
                   For PC you can use <span class="font-weight-bold yellow--text">OBS Studio</span> or <span class="font-weight-bold blue--text">Streamlabs</span>.
@@ -272,7 +272,7 @@
             </div>
             <div>
               9. If you don't like what you're viewing, stop watching it. If you don't like what you're reading, stop reading it.<br>
-              Otherwise, you can write an essay on your feelings here: <a href="/report" target="_blank">https://bitwave.tv/report</a>
+              Otherwise, you can write an essay on your feelings here: <a href="/report" target="_blank">https://bitvvave.tv/report</a>
             </div>
             <div>
               10. When in doubt, ask chat.

@@ -97,6 +97,7 @@
   // early setup for webrtc stuff
   import * as io from '@/plugins/socketio.js' // should import v4 of socket io
 
+  // https://github.com/OpenVidu/openvidu
 // notice that the exports were removed from this, which were in the original library call
   import * as RTCMultiConnection from '@/plugins/simpleRTC.js'
 
@@ -109,13 +110,13 @@
   // make these more configurable 
   connection.iceServers = [];
   if(process.env.ICESERVER1){
-    connection.iceServers.push(process.env.ICESERVER1);
+    connection.iceServers.push(JSON.parse( process.env.ICESERVER1));
   }
   if(process.env.ICESERVER2){
-    connection.iceServers.push(process.env.ICESERVER2);
+    connection.iceServers.push(JSON.parse(process.env.ICESERVER2));
   }
   if(process.env.ICESERVER3){
-    connection.iceServers.push(process.env.ICESERVER3);
+    connection.iceServers.push(JSON.parse(process.env.ICESERVER3));
   }
   console.log("Ice servers:",connection.iceServers);
 
@@ -135,7 +136,8 @@
 
   connection.socketURL = process.env.WEBRTCSERVER;
 
-
+  // https://github.com/muaz-khan/RTCMultiConnection/issues/869 Black screen and disconnect issue
+  connection.getExternalIceServers = true;
 
   connection.socketMessageEvent = 'scalable-media-broadcast-demo';
   
@@ -322,7 +324,7 @@
 
               connection.isUpperUserLeft = false;
               this.videoPreview = document.getElementById('rtcbinder');
-              //this.videoPreview = document.getElementById('streamplayer');
+              //this.shitwavevid = document.getElementById('streamplayer');
               //this.shitwavevid.hidden = true;
               this.videoPreview.hidden = false;
               //this.videoPreview = document.getElementById('streamplayer_html5_api');

@@ -176,6 +176,7 @@
     // use the chat server to get our stream key
    
     import * as io from '@/plugins/socketio.js'; // should import v4 of socket io
+    // kick all users https://github.com/muaz-khan/RTCMultiConnection/issues/907
 
     
 

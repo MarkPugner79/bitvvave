@@ -68,7 +68,7 @@
   import { mapState, mapMutations, mapActions } from 'vuex';
   import { VStore } from "@/store";
 
-  const title = `Stream Replays - [bitwave.tv]`;
+  const title = `Stream Replays - [bitvvave.tv]`;
   const description = `Browse the most recent stream replays available.`;
   const image = `/images/bitwave-banner.jpg`;
 
@@ -81,16 +81,16 @@
       return {
         title: title,
         link: [
-          { rel: 'canonical', href: `https://bitwave.tv/replays` },
+          { rel: 'canonical', href: `https://bitvvave.tv/replays` },
         ],
         meta: [
           { property: 'og:title',            hid: 'og:title',       content: title },
-          { property: 'og:url',              hid: 'og:url',         content: `https://bitwave.tv/replays` },
+          { property: 'og:url',              hid: 'og:url',         content: `https://bitvvave.tv/replays` },
           { property: 'og:description',      hid: 'og:description', content: description },
           { property: 'og:image',            hid:'og:image',        content: image },
           { property: 'description',         hid: 'description',    content: description },
           { property: 'twitter:card',        content: 'summary_large_image' },
-          { property: 'twitter:site',        content: '@BitwaveTV' },
+          { property: 'twitter:site',        content: '@BitvvaveTV' },
           { property: 'twitter:title',       content: title },
           { property: 'twitter:description', content: description },
           { property: 'twitter:image',       content: image },

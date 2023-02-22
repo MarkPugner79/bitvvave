@@ -147,6 +147,7 @@
 
   /* TODO: 
       https://nuxt.com/docs/guide/directory-structure/pages#alias Add a nice slug handler for channel and c
+      So it seems like this has some other issues trying to connec to the vstore/store
   */
 
   // So lets disable webrtc
@@ -160,6 +161,8 @@
   import * as RTCMultiConnection from '@/plugins/simpleRTC.js'
 
   let connection = new RTCMultiConnection(); // so this fires the second instance it would seem
+  // there are also some issues with how this is hooked and setup...
+  // need to debug how page -> this page nav works and hooks to get loaded
   */
   
 
@@ -177,19 +180,19 @@
   // BACK TO NORMAL STREAM STUFF THAT ISN'T HANDLING WEBRTC CONNECTIONS
 
   export default {
-    name: 'watch',
-
+    name: 'c',
+    layout: 'default',
     scrollToTop: true,
 
     head () {
       return {
         title: `${this.name} - ${process.env.BRANDING.BRACKETS}`,
         link: [
-          { rel: 'canonical', href: `https://bitvvave.tv/${this.name}` },
+          { rel: 'canonical', href: `https://bitvvave.tv/c/${this.name}` },
         ],
         meta: [
           { property: 'og:title',            hid: 'og:title',       content: `${this.title} - ${process.env.BRANDING.BRACKETS}` },
-          { property: 'og:url',              hid: 'og:url',         content: `https://bitvvave.tv/${this.name}` },
+          { property: 'og:url',              hid: 'og:url',         content: `https://bitvvave.tv/c/${this.name}` },
           { property: 'og:description',      hid: 'og:description', content: ( this.description || '' ).substring( 0, 200 ) },
           { property: 'og:image',            hid: 'og:image',       content: this.poster },
           { property: 'description',         hid: 'description',    content: ( this.name || '' ).substring( 0, 200 ) },
@@ -441,8 +444,10 @@
     },
 
     async asyncData ( { $axios, params, error } ) {
+      console.log("Page params:",params);
       const channel = params.watch;
-      console.log("Should fetch channel data for:",channel);
+      //const channel = this.$route.params.watch;
+      console.log("c/_watch Should fetch channel data for:",channel);
       // Timeout to prevent SSR from locking up
       const timeout = process.server ? process.env.SSR_TIMEOUT : 0;
 
@@ -710,12 +715,15 @@
       },
     },
 
-    validate ( { params } ) {
+    /*validate ( { params } ) {
       // Verify username is valid
+      
+      console.log("Validation call:",params);
       const user = params.watch;
       const validator = /^[a-zA-Z0-9._-]+$/;
+      return user;
       return validator.test( user );
-    },
+    },*/
 
     async created () {
           
