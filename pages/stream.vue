@@ -70,6 +70,10 @@
                     Stop Stream
                 </v-btn>
 
+                
+
+                
+
                 <v-spacer />
 
                 <h-spacer />
@@ -95,7 +99,7 @@
                         clearable
                         id="stream-title"
                         :label="`Stream Title`"
-                        v-if="this.webRTC"
+                        
                     ></v-text-field>
                     <v-text-field
                         class="mb-0"
@@ -107,7 +111,47 @@
                         clearable
                         id="stream-desc"
                         :label="`Stream Description`"
-                        v-if="this.webRTC"
+                        v-model="broadcastDesc"
+                        
+                    ></v-text-field>
+
+                    <v-text-field
+                        class="mb-0"
+                        color="primary"
+                        single-line
+                        dense
+                        validate-on-blur
+                        outlined
+                        clearable
+                        id="stream-rtmp-livego-key"
+                        :label="`LiveGo Key`"
+                        v-model="livegokey"
+                        
+                    ></v-text-field>
+
+                    <v-btn
+                    class="mr-3"
+                    color="green"
+                    small
+                    
+                    @click="getLiveGoKey"
+                    
+                >
+                    Get LiveGO stream key
+                </v-btn>
+
+                    <v-text-field
+                        class="mb-0"
+                        color="primary"
+                        single-line
+                        dense
+                        validate-on-blur
+                        outlined
+                        clearable
+                        id="stream-rtmp-livego-ingest-server"
+                        :label="`LiveGo Ingest Server`"
+                        v-model="ingest"
+                        
                     ></v-text-field>
                     
                     <v-text-field
@@ -119,10 +163,32 @@
                         outlined
                         clearable
                         id="stream-rtmp-alt"
-                        :label="`RTMP Backup`"
-
-                        v-if="this.webRTC"
+                        :label="`RTMP Egress (what is published for live)`"
+                        v-model="rtmpstream"
+                        
                     ></v-text-field>
+
+                    <v-btn
+                    class="mr-3"
+                    color="primary"
+                    small
+                    
+                    @click="startHttpRTMP"
+                    
+                >
+                    Start Stream
+                </v-btn>
+
+                <v-btn
+                    class="mr-3"
+                    color="secondary"
+                    small
+                    
+                    @click="stopHttpRTMP"
+                    
+                >
+                    Stop Stream
+                </v-btn>
                 </v-card>
             <!--</v-flex>-->
         <!--</v-layout>-->
@@ -245,6 +311,7 @@
   
 
     //const RTCMultiConnection = require('@/plugins/simpleRTC.js'); // so this seems to work after breaking the export system
+    /*
     import * as RTCMultiConnection from '@/plugins/simpleRTC.js'
 
     //import jwt_decode from 'jwt-decode';
@@ -281,7 +348,7 @@
 
     let socketlc = io.connect(process.env.CHATSERVER, { transports: ['websocket'] });
 
-    let do_init = true;
+    let do_init = false;
     if(do_init){
         connection.connectSocket(function(socket) {
         socket.on('logs', function(log) {
@@ -576,6 +643,7 @@
 
     } // end up setup check
      // end of connection setup
+     */
   export default {
     name: 'dashboard',
 
@@ -591,6 +659,223 @@
     },
 
     methods: {
+
+         // Show error alert
+      showError ( message ) {
+        this.alertType = 'error';
+        this.alert = true;
+        this.alertMessage = message;
+      },
+
+      // Show success alert
+      showSuccess ( message ) {
+        this.alertType = 'success';
+        this.alert = true;
+        this.alertMessage = message;
+      },
+
+      // Hide alert
+      hideAlert () {
+        this.alert = false;
+      },
+
+        async getLiveGoKey () {
+            // so what has been learned is that it is easier to fix by adding new stuff than it is to actually get webrtc working all around
+            // at some point there will also be support to run a livekit server as well...
+            //const endpoint = '/v1/livego/getkey'; // this should point at the backend fedwave server, so the url should be built, then use axios or something else to do the post request
+            // and then process the response 
+            console.log("Should have requested the live go key for the user...");
+            try {
+                function parseToken (token) {
+                try{
+                    var base64Url = token.split('.')[1];
+                    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                    }).join(''));
+                }catch(ex){
+                    console.log("failed to parse the token")
+                    return {user:{name:'failed'}}
+                }
+                return JSON.parse(jsonPayload);
+            };
+            let usertoken = '';
+            if(localStorage.getItem('troll')){
+                //broadcastId = this.streamerName;
+                usertoken = localStorage.getItem('troll');
+            }
+
+            if(localStorage.getItem('chatToken')){
+                //broadcastId = this.streamerName;
+                usertoken = localStorage.getItem('chatToken');
+            }
+            /*try{
+                console.log("User Token:",usertoken);
+                // should then parse
+                //const { user } = jwt_decode( usertoken );
+                //console.log("Decoded user:",user);
+                let user = parseToken( usertoken );
+                console.log("Decoded user:",user.sub.username);
+                //broadcastId = user.sub.username;
+            }*/
+          const endpoint = '' + process.env.APISERVER + 'v1/livego/getkey';
+          const payload = {
+            userToken:usertoken,
+            //desc:broadcastDesc,viewCountRTC:0,src:rtmpstream,skipWScu:true,
+          };
+
+          // Submit to API server
+          const result = await this.$axios.$post( endpoint, payload );
+          console.log("Debug result:",result);
+          if ( result.success ) {
+            //this.showSuccess( result.message + '\nSigning in to new account...' );
+            console.log('Should get our result for our livego rtmp, hls and key');
+            document.getElementById('stream-rtmp-alt').value = result.hls;
+            document.getElementById('stream-rtmp-livego-key').value = result.key;
+            document.getElementById('stream-rtmp-livego-ingest-server').value = result.rtmp;
+
+
+            
+
+            localStorage.setItem('ingest',result.rtmp);
+            this.ingest = result.rtmp;
+
+
+            localStorage.setItem('rtmp',result.hls);
+            this.rtmpstream = localStorage.getItem('rtmp');
+
+            this.livegokey = result.key;
+            localStorage.setItem('livegokey',result.key);
+
+            localStorage.setItem('broadcast-desc',this.broadcastDesc);
+            this.broadcastDesc = localStorage.getItem('broadcast-desc');
+
+            //localStorage.setItem('rtmp',result.hls);
+            //this.rtmpstream = localStorage.getItem('rtmp');
+
+            //document.getElementById("stream-rtmp-alt").value = this.rtmpstream;
+            // localStorage.setItem('rtmp',data.rtmp);
+            //document.getElementById('rtmp').value = data.hls;
+            //let chatToken = result.token;
+            // save it to the local storage and force it to connect
+            //let backuptoken = localStorage.getItem( 'troll');
+            //localStorage.setItem( 'chatToken', chatToken );
+            //localStorage.setItem( 'troll', chatToken );
+            //localStorage.setItem( 'oldtroll', backuptoken );
+            
+                // Reconnect to chat
+                // prevents duplicating connection
+                //await this.disconnectChat();
+                //await this.connectToChat( tokenUser ); // Connect to chat server
+            
+          } else {
+            console.log("Error result:",result);
+            this.showError( result.message );
+            //this.captchaToken = null;
+            //this.attempts += 1;
+            this.loading = false;
+            return false;
+          }
+        } catch ( error ) {
+          console.error( error );
+          this.showError( error.message );
+          //this.captchaToken = null;
+          //this.attempts += 1;
+          this.loading = false;
+          return false;
+        }
+
+        },
+
+        async startHttpRTMP(){
+            const endpoint = '' + process.env.APISERVER + 'v1/stream/announce';
+
+        let broadcastDesc = document.getElementById("stream-desc").value;
+        let rtmpstream = document.getElementById("stream-rtmp-alt").value;
+        //try {
+                function parseToken (token) {
+                try{
+                    var base64Url = token.split('.')[1];
+                    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                    }).join(''));
+                }catch(ex){
+                    console.log("failed to parse the token")
+                    return {user:{name:'failed'}}
+                }
+                return JSON.parse(jsonPayload);
+            };
+            let usertoken = '';
+            if(localStorage.getItem('troll')){
+                //broadcastId = this.streamerName;
+                usertoken = localStorage.getItem('troll');
+            }
+
+            if(localStorage.getItem('chatToken')){
+                //broadcastId = this.streamerName;
+                usertoken = localStorage.getItem('chatToken');
+            }
+          const payload = {
+            chatToken:usertoken,
+            desc:broadcastDesc,viewCountRTC:0,src:rtmpstream,skipWScu:true,
+          };
+
+          const result = await this.$axios.$post( endpoint, payload );
+          console.log("Debug result:",result);
+          if ( result.success ) {
+
+
+          }
+
+          localStorage.setItem('rtmp',rtmpstream);
+          localStorage.setItem('broadcast-desc',broadcastDesc);
+          this.broadcastDesc = broadcastDesc;
+
+
+        },
+
+        async stopHttpRTMP(){
+            const endpoint = '' + process.env.APISERVER + 'v1/stream/remove';
+
+        let broadcastDesc = document.getElementById("stream-desc").value;
+        let rtmpstream = document.getElementById("stream-rtmp-alt").value;
+        //try {
+                function parseToken (token) {
+                try{
+                    var base64Url = token.split('.')[1];
+                    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                    }).join(''));
+                }catch(ex){
+                    console.log("failed to parse the token")
+                    return {user:{name:'failed'}}
+                }
+                return JSON.parse(jsonPayload);
+            };
+            let usertoken = '';
+            if(localStorage.getItem('troll')){
+                //broadcastId = this.streamerName;
+                usertoken = localStorage.getItem('troll');
+            }
+
+            if(localStorage.getItem('chatToken')){
+                //broadcastId = this.streamerName;
+                usertoken = localStorage.getItem('chatToken');
+            }
+          const payload = {
+            chatToken:usertoken,
+            //desc:broadcastDesc,viewCountRTC:0,src:rtmpstream,skipWScu:true,
+          };
+
+          const result = await this.$axios.$post( endpoint, payload );
+          console.log("Debug result:",result);
+          if ( result.success ) {
+
+
+          }
+        },
 
         async startStream () {
             /*
@@ -827,13 +1112,36 @@
         let settings = localStorage.getItem('player-settings');
             console.log("player settings Settings read:", settings);
             let setting_obj = JSON.parse(settings)
-            this.webRTC = setting_obj.webRTC;
+            this.webRTC = false; //setting_obj.webRTC;
             console.log("is webrtc enbaled: ", this.webRTC);
 
             // LOCALSTORAGE ADD FEATURE
             if (localStorage.getItem('broadcast-desc')) {
                 //document.getElementById('stream-desc').value = localStorage.getItem('broadcast-desc');
+                
+                //localStorage.setItem('rtmp',rtmpstream);
+                //localStorage.setItem('broadcast-desc',broadcastDesc);
+                this.broadcastDesc = localStorage.getItem('broadcast-desc');
+                //let broadcastDesc = ;
+                //document.getElementById("stream-desc").value = this.broadcastDesc;
+                //let rtmpstream = ;
             }
+
+            if (localStorage.getItem('rtmp')) {
+                this.rtmpstream = localStorage.getItem('rtmp');
+                //document.getElementById("stream-rtmp-alt").value = this.rtmpstream;
+            }
+            if (localStorage.getItem('livegokey')) {
+                this.livegokey = localStorage.getItem('livegokey');
+                //document.getElementById("stream-rtmp-alt").value = this.rtmpstream;
+                //document.getElementById('stream-rtmp-livego-key').value = this.livegokey;
+            }
+
+            if(localStorage.getItem('ingest')){
+                //document.getElementById('stream-rtmp-livego-ingest-server').value = result.rtmp;
+                this.ingest = localStorage.getItem('ingest');
+            }
+            
       this.mounted = true;
       //this.loadPlayerSettingsStreamer();
       //this.loadRTC();
