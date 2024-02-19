@@ -931,7 +931,7 @@
       page () {
         let channel = this.chatChannel;
         if ( channel ) {
-          return channel.match( /^[a-zA-Z0-9._-]+$/ )
+          return channel.match( /^[a-zA-Z0-9@$.:_-]*$/ )
             ? channel
             : '404';
         } else {

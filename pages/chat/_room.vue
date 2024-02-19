@@ -29,7 +29,7 @@
     validate ( { params } ) {
       // Verify username is valid
       const user = params.room;
-      const validator = /^[a-zA-Z0-9._-]+$/;
+      const validator = /^[a-zA-Z0-9@$=.:_-]*$/;
       return validator.test( user );
     },
 

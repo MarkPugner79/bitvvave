@@ -715,15 +715,14 @@
       },
     },
 
-    /*validate ( { params } ) {
+    validate ( { params } ) {
       // Verify username is valid
       
       console.log("Validation call:",params);
       const user = params.watch;
-      const validator = /^[a-zA-Z0-9._-]+$/;
-      return user;
+      const validator = /^[a-zA-Z0-9@$.:_-]*$/;
       return validator.test( user );
-    },*/
+    },
 
     async created () {
           
