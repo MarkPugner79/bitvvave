@@ -63,6 +63,12 @@ Firebase,
 
 Probably need to also fork and update the chat api client stuff so we can get to a modern secure build of socket.io
 
+Only Show messages from people you know, you will only see a username or partial username, messages will not be rendered or cached if you don't know them.
+
+No images chat mode []
+
+Images only from DOMAIN LIST []
+    Should allow you to add that domain []
 
 
 # Deployment
