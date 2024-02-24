@@ -44,6 +44,7 @@
     "livekit-client": "^1.6.2",
     "marked": "^0.7.0",
     "moment": "^2.29.1",
+    "mpegts.js": "^1.7.3",
     "nuxt": "^2.14.12",
     "nuxt-stripe-module": "^3.2.0",
     "sass-loader": "^10.1.1",
@@ -66,5 +67,4 @@
     "stylus-loader": "^4.3.3",
     "vue": "^2.6.12"
   }
-   
 }

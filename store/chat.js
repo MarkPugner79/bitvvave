@@ -542,7 +542,7 @@ export const actions = {
     try {
       // is this what fails?
       commit( $mutations.setChatToken, data );
-      /*
+      
       function parseToken (token) {
           try{
               var base64Url = token.split('.')[1];
@@ -552,7 +552,7 @@ export const actions = {
               }).join(''));
           }catch(ex){
               console.log("failed to parse the token")
-              return {sub:{username:'failed'}}
+              return {sub:{username:'failed2parse'}}
           }
           return JSON.parse(jsonPayload);
       };
@@ -569,7 +569,7 @@ export const actions = {
       }else{
         //console.log("Should have parsed the user token:",user);
         commit( $mutations.setDisplayName, userTroll.sub.username );
-      }*/
+      }
     } catch ( error ) {
       console.error( `Failed to update chat token.` );
       console.error( error.message );
