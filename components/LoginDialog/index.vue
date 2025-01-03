@@ -786,22 +786,32 @@
       // check and validate/load token info
       if(localStorage.getItem('troll')){
         // load and parse the troll token
-        let trollToken = localStorage.getItem('troll');
-        console.log("Loaded troll token:",trollToken);
-        let decoded_username = parseToken(trollToken).sub.username;
-        console.log("loaded:", decoded_username);
-        this.trollToken = trollToken;
-        this.trollName = decoded_username;
+        try{
+          let trollToken = localStorage.getItem('troll');
+          console.log("Loaded troll token:",trollToken);
+          let decoded_username = parseToken(trollToken).sub;
+          decoded_username = JSON.parse(decoded_username).username;
+          console.log("loaded:", decoded_username);
+          this.trollToken = trollToken;
+          this.trollName = decoded_username;
+        }catch(error){
+          console.log("Error parsing the troll token:",error);
+        }
       }
 
       if(localStorage.getItem('chatToken')){
         // load and parse the chat token
-        let testChatToken = localStorage.getItem('chatToken');
-        console.log("Loaded chat token:",testChatToken);
-        let decoded_username = parseToken(testChatToken).sub.username;
-        console.log("loaded:", decoded_username);
-        this.chatToken = testChatToken;
-        this.userName = decoded_username;
+        try{
+          let testChatToken = localStorage.getItem('chatToken');
+          console.log("Loaded chat token:",testChatToken);
+          let decoded_username = parseToken(testChatToken).sub;
+          decoded_username = JSON.parse(decoded_username).username;
+          console.log("loaded:", decoded_username);
+          this.chatToken = testChatToken;
+          this.userName = decoded_username;
+        }catch(error){
+          console.log("Error parsing the troll token:",error);
+        }
       }
     },
 
