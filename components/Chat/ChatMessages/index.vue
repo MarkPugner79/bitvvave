@@ -208,12 +208,18 @@
         if ( !this.messages || this.messages.length === 0 || this.atBottom ) {
           return true;
         } else {
-          const scrollTop    = this.chatContainer.scrollTop;
-          const clientHeight = this.chatContainer.clientHeight; // or offsetHeight
-          const scrollHeight = this.chatContainer.scrollHeight;
-          const lastMessageHeight = this.chatContainer.lastElementChild.clientHeight;
-          // const lastMessageHeight = document.querySelector("#chat-scroll > div:last-child").clientHeight;
-          return scrollTop + clientHeight >= scrollHeight - lastMessageHeight;
+          try
+          {
+            const scrollTop    = this.chatContainer.scrollTop;
+            const clientHeight = this.chatContainer.clientHeight; // or offsetHeight
+            const scrollHeight = this.chatContainer.scrollHeight;
+            const lastMessageHeight = this.chatContainer.lastElementChild.clientHeight;
+            // const lastMessageHeight = document.querySelector("#chat-scroll > div:last-child").clientHeight;
+            return scrollTop + clientHeight >= scrollHeight - lastMessageHeight;
+          }(error){
+                console.log("Volume setup...");
+          }
+          return false;
         }
       },
 
