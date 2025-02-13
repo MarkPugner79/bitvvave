@@ -210,14 +210,16 @@
         } else {
           try
           {
-            const scrollTop    = this.chatContainer.scrollTop;
-            const clientHeight = this.chatContainer.clientHeight; // or offsetHeight
-            const scrollHeight = this.chatContainer.scrollHeight;
-            const lastMessageHeight = this.chatContainer.lastElementChild.clientHeight;
-            // const lastMessageHeight = document.querySelector("#chat-scroll > div:last-child").clientHeight;
-            return scrollTop + clientHeight >= scrollHeight - lastMessageHeight;
+            if(this.chatContainer){
+              const scrollTop    = this.chatContainer.scrollTop;
+              const clientHeight = this.chatContainer.clientHeight; // or offsetHeight
+              const scrollHeight = this.chatContainer.scrollHeight;
+              const lastMessageHeight = this.chatContainer.lastElementChild.clientHeight;
+              // const lastMessageHeight = document.querySelector("#chat-scroll > div:last-child").clientHeight;
+              return scrollTop + clientHeight >= scrollHeight - lastMessageHeight;
+          }
           }catch(error){
-                console.log("Volume setup...");
+                console.log("This error should get caught");
           }
           return false;
         }
@@ -283,8 +285,12 @@
       },
 
       onScrollDown ( scrollPosition ) {
-        if ( scrollPosition + this.chatContainer.clientHeight > this.chatContainer.scrollHeight - 250 ) {
-          this.showFAB = false;
+        try{
+          if ( scrollPosition + this.chatContainer.clientHeight > this.chatContainer.scrollHeight - 250 ) {
+            this.showFAB = false;
+          }
+        }catch(error){
+          console.log("There was an error trying to get the client height probably....");
         }
       },
 
