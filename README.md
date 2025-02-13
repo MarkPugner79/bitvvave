@@ -6,6 +6,14 @@ This is a front end that is intended to be use with fedwave (A backend streaming
 
 Most of the API calls are designed to work with fedwave's api (which should match everything in this project)
 
+# To do
+
+## hlsp2p video playback (with clappr or videojs)
+
+## support for mpegts
+
+## Fix token parsing for user info (for what it displays in chat) that should be handled by the login process iirc
+
 # Configuration
 
 `.env` Has a bunch of configuration options that need to be configured for this to work.
@@ -22,6 +30,10 @@ If you are just getting started consider setting up npm via nvm (node version ma
 
 Install node js 16 with npm
 `nvm install 16`
+
+Or do:
+`nvm install`
+since there should be a .nvmrc with the version number of 16 in it.
 
 Example of how it should be ran, modify this in post-receive to work as a production/dev environment.
 `nvm exec 16 npm run dev`
@@ -55,6 +67,10 @@ $ npm start
 If you find a security problem please contact the project or pay attention to the dependencies in use.
 This is a large codebase, please consider that it has components that are out of date, and hasn't been under
 active development since 2021.
+
+Hey just so you know this is a nightmare and no one should in their right mind run this at this point.
+There will be a few more features added and then porting the UI to something that is still supported via another
+project will eventually be started.
 
 # TODO
 
