@@ -216,7 +216,7 @@
             const lastMessageHeight = this.chatContainer.lastElementChild.clientHeight;
             // const lastMessageHeight = document.querySelector("#chat-scroll > div:last-child").clientHeight;
             return scrollTop + clientHeight >= scrollHeight - lastMessageHeight;
-          }(error){
+          }catch(error){
                 console.log("Volume setup...");
           }
           return false;
