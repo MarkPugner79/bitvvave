@@ -354,7 +354,8 @@
       },
 
       onGoto ( location ) {
-        this.$router.push( location );
+        // location should be fixed to have a /c/ slug in it now
+        this.$router.push( "c/" + location );
       },
     },
 
