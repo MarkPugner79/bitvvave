@@ -371,7 +371,7 @@
             ? '/chat/'
             : '';
       } else {
-        this.routePrefix = '/';
+        this.routePrefix = '/c/';
       }
     },
 
